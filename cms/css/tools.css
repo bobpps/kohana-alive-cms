@@ -1,0 +1,23 @@
+.menu-section-column{
+    width: 250px;
+}
+.sort-number-column{
+    width: 120px;
+}
+.button-edit-column{
+    width: 80px;
+}
+
+.table_settings .tab-content{
+    border: 1px solid #ddd;
+    padding: 30px;
+    border-top: none;
+}
+
+#columns .input-editor{
+    display: none;
+}
+
+#columns .input-editor input{
+    display: inline;
+}
