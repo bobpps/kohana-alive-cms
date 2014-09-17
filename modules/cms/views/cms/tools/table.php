@@ -1,6 +1,7 @@
 <ul class="nav nav-tabs" role="tablist">
     <li class="active"><a href="#params" role="tab" data-toggle="tab">Параметры</a></li>
     <li><a href="#columns_old" role="tab" data-toggle="tab">Столбцы</a></li>
+    <li><a href="#columns_old2" role="tab" data-toggle="tab">Столбцы</a></li>
     <li><a href="#columns" role="tab" data-toggle="tab">Столбцы</a></li>
 </ul>
 
@@ -334,7 +335,7 @@
     </div>
     
     <!-- COLUMNS -->
-    <div class="tab-pane fade" id="columns">
+    <div class="tab-pane fade" id="columns_old2">
         <div class="row">
             <div class="col-sm-4">
                 Столбец
@@ -419,6 +420,86 @@
             </div>              
         </div>
     </div>
+    
+    <!-- COLUMNS -->
+    <div class="tab-pane fade" id="columns">
+        <div class="row hidden-sm">
+            <div class="col-md-3 col-md-offset-2">
+                Название
+            </div>
+            <div class="col-md-2">
+                Сортировка
+            </div>
+            <div class=" col-md-5">
+                Параметры
+            </div>
+        </div> 
+        
+        <hr class="hidden-sm" />
+        
+        <div class="row">
+            <div class="col-md-2">
+                <span style="font-size: 24px;">[ id ]</span>
+            </div>            
+            <div class="col-md-3">
+                <?=Cms_Control::columneditor('name', 'Id', array('class' => 'form-control input-sm'))?>
+            </div>
+        </div>
+           
+        <div class="row">
+            <div class="col-md-2" style="font-weight: bold;">
+                Редактор:
+            </div>            
+            <div class="col-md-3">
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default btn-sm" type="button" style="vertical-align: top;"><span class="glyphicon glyphicon-cog"></span></button>
+                    </span>                  
+                    <?=Form::select('edit', $edit_controls, 'Textbox', array('class' => 'form-control input-sm'))?>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <?=Cms_Control::columneditor('edit_sort', '100', array('type' => 'number', 'class' => 'form-control input-sm'))?>
+            </div>
+            <div class="col-md-2" style="text-align: right; ">
+                Ограничения:
+            </div>  
+            <div class="col-md-3">
+                <div class="btn-group">
+                    <button class="btn btn-default btn-sm" type="button">R</button>
+                    <button class="btn btn-default btn-sm" type="button">ML</button>
+                    <button class="btn btn-default btn-sm" type="button">RE</button>
+                    <button class="btn btn-default btn-sm" type="button">Max</button>
+                    <button class="btn btn-default btn-sm" type="button">Min</button>
+                    <button class="btn btn-default btn-sm" type="button">Step</button>                     
+                </div>               
+            </div>              
+        </div>
+        <div class="row">
+            <div class="col-md-2" style="font-weight: bold;">
+                Список:
+            </div>            
+            <div class="col-md-3">
+                <div class="input-group">
+                    <span class="input-group-btn">
+                      <button class="btn btn-default btn-sm" type="button" style="vertical-align: top;"><span class="glyphicon glyphicon-cog"></span></button>
+                    </span>                  
+                    <?=Form::select('list', $list_controls, '', array('class' => 'form-control input-sm'))?>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <?=Cms_Control::columneditor('list_sort', '100', array('type' => 'number', 'class' => 'form-control input-sm'))?>
+            </div>
+            <div class="col-md-2" style="text-align: right; ">
+                Color & Align:
+            </div>  
+            <div class="col-md-3">
+                <?=Form::select('color', $colors, 'Black', array('class' => 'form-control input-sm color-control', 'style' => 'width: 48%; display: inline;'))?>
+                <?=Form::select('align', $align, 'Left', array('class' => 'form-control input-sm', 'style' => 'width: 48%; display: inline;'))?>
+            </div>             
+        </div>   
+         
+    </div>    
 </div>
 
 <script>

@@ -2,7 +2,7 @@
 
 $(function() {
     $('#columns .input-display a').click(function() {
-        var displayDiv = $(this).parent('.input-display'),
+        var displayDiv = $(this).parents('.input-display'),
                 editorDiv = displayDiv.next('.input-editor');
 
         editorDiv.children('input').val($(this).text());
@@ -15,7 +15,7 @@ $(function() {
     });
 
     $('#columns .input-editor .cancel-button').click(function() {
-        var editorDiv = $(this).parent('.input-editor'),
+        var editorDiv = $(this).parents('.input-editor'),
                 displayDiv = editorDiv.prev('.input-display');
 
         editorDiv.hide();
@@ -25,13 +25,14 @@ $(function() {
     });
 
     $('#columns .input-editor .ok-button').click(function() {
-        var editorDiv = $(this).parent('.input-editor'),
-                displayDiv = editorDiv.prev('.input-display');
+        var editorDiv = $(this).parents('.input-editor'),
+                displayDiv = editorDiv.prev('.input-display'),
+                input = editorDiv.find('input');
 
-        if (editorDiv.children('input').val() && editorDiv.children('input').val() != displayDiv.children('a').text()) {
-            saveColumnParamChanges(editorDiv.children('input'));
+        if (input.val() && input.val() != displayDiv.children('a').text()) {
+            saveColumnParamChanges(input);
 
-            displayDiv.children('a').text(editorDiv.children('input').val());
+            displayDiv.children('a').text(input.val());
         }
 
         editorDiv.hide();
