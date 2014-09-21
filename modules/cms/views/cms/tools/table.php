@@ -423,34 +423,21 @@
     
     <!-- COLUMNS -->
     <div class="tab-pane fade" id="columns">
-        <div class="row hidden-sm">
-            <div class="col-md-3 col-md-offset-2">
-                Название
-            </div>
-            <div class="col-md-2">
-                Сортировка
-            </div>
-            <div class=" col-md-5">
-                Параметры
-            </div>
-        </div> 
-        
-        <hr class="hidden-sm" />
-        
+       
         <div class="row">
-            <div class="col-md-2">
+            <div class="col-xs-6 col-lg-4">
                 <span style="font-size: 24px;">[ id ]</span>
             </div>            
-            <div class="col-md-3">
+            <div class="col-xs-6 col-lg-3">
                 <?=Cms_Control::columneditor('name', 'Id', array('class' => 'form-control input-sm'))?>
             </div>
         </div>
            
         <div class="row">
-            <div class="col-md-2" style="font-weight: bold;">
+            <div class="col-xs-12 col-lg-1" style="font-weight: bold;">
                 Редактор:
             </div>            
-            <div class="col-md-3">
+            <div class="col-xs-6 col-lg-3">
                 <div class="input-group">
                     <span class="input-group-btn">
                         <button class="btn btn-default btn-sm" type="button" style="vertical-align: top;"><span class="glyphicon glyphicon-cog"></span></button>
@@ -458,28 +445,33 @@
                     <?=Form::select('edit', $edit_controls, 'Textbox', array('class' => 'form-control input-sm'))?>
                 </div>
             </div>
-            <div class="col-md-2">
+            <div class="col-xs-6 col-lg-3">
                 <?=Cms_Control::columneditor('edit_sort', '100', array('type' => 'number', 'class' => 'form-control input-sm'))?>
             </div>
-            <div class="col-md-2" style="text-align: right; ">
-                Ограничения:
-            </div>  
-            <div class="col-md-3">
-                <div class="btn-group">
-                    <button class="btn btn-default btn-sm" type="button">R</button>
-                    <button class="btn btn-default btn-sm" type="button">ML</button>
-                    <button class="btn btn-default btn-sm" type="button">RE</button>
-                    <button class="btn btn-default btn-sm" type="button">Max</button>
-                    <button class="btn btn-default btn-sm" type="button">Min</button>
-                    <button class="btn btn-default btn-sm" type="button">Step</button>                     
-                </div>               
-            </div>              
+            <div class="col-xs-12 col-lg-5">
+                <div class="row">
+                    <div class="hidden-sm hidden-xs hidden-md col-lg-4">
+                        <a href="#" class="constraints">Ограничения:</a>
+                    </div>  
+                    <div class="col-xs-12 col-md-6 col-lg-8">
+                        <span class="hidden-lg"><a href="#" class="constraints">Ограничения:</a>&nbsp;&nbsp;</span>
+                        <div class="btn-group">
+                            <button class="btn btn-default btn-sm constraints" type="button">R</button>
+                            <button class="btn btn-default btn-sm constraints" type="button">ML</button>
+                            <button class="btn btn-default btn-sm constraints" type="button">RE</button>
+                            <button class="btn btn-default btn-sm constraints" type="button">Max</button>
+                            <button class="btn btn-default btn-sm constraints" type="button">Min</button>
+                            <button class="btn btn-default btn-sm constraints" type="button">Step</button>                     
+                        </div>   
+                    </div>
+                </div>
+            </div>             
         </div>
         <div class="row">
-            <div class="col-md-2" style="font-weight: bold;">
+            <div class="col-xs-12 col-lg-1" style="font-weight: bold;">
                 Список:
             </div>            
-            <div class="col-md-3">
+            <div class="col-xs-6 col-lg-3">
                 <div class="input-group">
                     <span class="input-group-btn">
                       <button class="btn btn-default btn-sm" type="button" style="vertical-align: top;"><span class="glyphicon glyphicon-cog"></span></button>
@@ -487,18 +479,99 @@
                     <?=Form::select('list', $list_controls, '', array('class' => 'form-control input-sm'))?>
                 </div>
             </div>
-            <div class="col-md-2">
+            <div class="col-xs-6 col-lg-3">
                 <?=Cms_Control::columneditor('list_sort', '100', array('type' => 'number', 'class' => 'form-control input-sm'))?>
             </div>
-            <div class="col-md-2" style="text-align: right; ">
-                Color & Align:
-            </div>  
-            <div class="col-md-3">
-                <?=Form::select('color', $colors, 'Black', array('class' => 'form-control input-sm color-control', 'style' => 'width: 48%; display: inline;'))?>
-                <?=Form::select('align', $align, 'Left', array('class' => 'form-control input-sm', 'style' => 'width: 48%; display: inline;'))?>
-            </div>             
+            <div class="col-xs-12 col-lg-5">
+                <div class="row">
+                    <div class="hidden-sm hidden-xs hidden-md col-lg-4">
+                        Color&nbsp;&&nbsp;Align:
+                    </div>  
+                    <div class="col-xs-6 col-lg-4">
+                        <?=Form::select('color', $colors, 'Navy', array('class' => 'form-control input-sm color-control'))?>
+                    </div>
+                    <div class="col-xs-6 col-lg-4">
+                        <?=Form::select('align', $align, 'Left', array('class' => 'form-control input-sm'))?>
+                    </div>                    
+                </div>
+            </div>      
         </div>   
+        
+        <hr />
          
+        <div class="row">
+            <div class="col-xs-6 col-lg-4">
+                <span style="font-size: 24px;">[ name ]</span>
+            </div>            
+            <div class="col-xs-6 col-lg-3">
+                <?=Cms_Control::columneditor('name', 'Название', array('class' => 'form-control input-sm'))?>
+            </div>
+        </div>
+           
+        <div class="row">
+            <div class="col-xs-12 col-lg-1" style="font-weight: bold;">
+                Редактор:
+            </div>            
+            <div class="col-xs-6 col-lg-3">
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default btn-sm" type="button" style="vertical-align: top;"><span class="glyphicon glyphicon-cog"></span></button>
+                    </span>                  
+                    <?=Form::select('edit', $edit_controls, 'Textbox', array('class' => 'form-control input-sm'))?>
+                </div>
+            </div>
+            <div class="col-xs-6 col-lg-3">
+                <?=Cms_Control::columneditor('edit_sort', '200', array('type' => 'number', 'class' => 'form-control input-sm'))?>
+            </div>
+            <div class="col-xs-12 col-lg-5">
+                <div class="row">
+                    <div class="hidden-sm hidden-xs hidden-md col-lg-4">
+                        <a href="#" class="constraints">Ограничения:</a>
+                    </div>  
+                    <div class="col-xs-12 col-md-6 col-lg-8">
+                        <span class="hidden-lg"><a href="#" class="constraints">Ограничения:</a>&nbsp;&nbsp;</span>
+                        <div class="btn-group">
+                            <button class="btn btn-default btn-sm constraints" type="button">R</button>
+                            <button class="btn btn-default btn-sm constraints" type="button">ML</button>
+                            <button class="btn btn-default btn-sm constraints" type="button">RE</button>
+                            <button class="btn btn-default btn-sm constraints" type="button">Max</button>
+                            <button class="btn btn-default btn-sm constraints" type="button">Min</button>
+                            <button class="btn btn-default btn-sm constraints" type="button">Step</button>                     
+                        </div>   
+                    </div>
+                </div>
+            </div>             
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-lg-1" style="font-weight: bold;">
+                Список:
+            </div>            
+            <div class="col-xs-6 col-lg-3">
+                <div class="input-group">
+                    <span class="input-group-btn">
+                      <button class="btn btn-default btn-sm" type="button" style="vertical-align: top;"><span class="glyphicon glyphicon-cog"></span></button>
+                    </span>                  
+                    <?=Form::select('list', $list_controls, '', array('class' => 'form-control input-sm'))?>
+                </div>
+            </div>
+            <div class="col-xs-6 col-lg-3">
+                <?=Cms_Control::columneditor('list_sort', '200', array('type' => 'number', 'class' => 'form-control input-sm'))?>
+            </div>
+            <div class="col-xs-12 col-lg-5">
+                <div class="row">
+                    <div class="hidden-sm hidden-xs hidden-md col-lg-4">
+                        Color&nbsp;&&nbsp;Align:
+                    </div>  
+                    <div class="col-xs-6 col-lg-4">
+                        <?=Form::select('color', $colors, 'Maroon', array('class' => 'form-control input-sm color-control'))?>
+                    </div>
+                    <div class="col-xs-6 col-lg-4">
+                        <?=Form::select('align', $align, 'Left', array('class' => 'form-control input-sm'))?>
+                    </div>                    
+                </div>
+            </div>      
+        </div>   
+        
     </div>    
 </div>
 

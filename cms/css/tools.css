@@ -22,6 +22,14 @@
     display: none;
 }
 
+#columns .input-display{
+    font-weight: bold;
+}
+
+#columns .input-display a{
+    color: navy;
+}
+
 #columns .input-editor input{
     display: inline;
 }

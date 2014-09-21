@@ -3,14 +3,15 @@
 $(function() {
     $('#columns .input-display a').click(function() {
         var displayDiv = $(this).parents('.input-display'),
-                editorDiv = displayDiv.next('.input-editor');
+                editorDiv = displayDiv.next('.input-editor'),
+                input = editorDiv.find('input');
 
-        editorDiv.children('input').val($(this).text());
+        input.val($(this).text());
 
         displayDiv.hide();
         editorDiv.show();
 
-        editorDiv.children('input').focus();
+        input.focus();
         return false;
     });
 

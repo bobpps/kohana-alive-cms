@@ -25,7 +25,7 @@ class Controller_Admin_Base extends Controller_Template {
         $this->template->styles = array();
         $this->add_style('cms/css/bootstrap.min.css');
         $this->add_style('cms/font-awesome/css/font-awesome.css');
-        $this->add_style('cms/css/sb-admin.css');
+        $this->add_style('cms/css/sb-admin-2.css');
         $this->add_style('cms/css/style.css');        
         
         $this->template->scripts = array();

@@ -63,6 +63,7 @@ class Controller_Admin_Tools extends Controller_Admin_Base {
                 'Right' => 'Right'
             ),
             'colors' => array(
+                'Auto' => '',
                 'Black' => 'Black', 
                 'Gray' => 'Gray', 
                 'Red' => 'Red', 
