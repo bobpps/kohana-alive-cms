@@ -33,3 +33,17 @@
 #columns .input-editor input{
     display: inline;
 }
+
+#columns .input-group-btn .btn{
+    vertical-align: top;
+}
+
+#validationRulesModal .row{
+    margin-bottom: 7px;
+}
+#validationRulesModal .row strong{
+    font-weight: normal;
+}
+#validationRulesModal .row.checked strong{
+    font-weight: bold;
+}

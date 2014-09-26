@@ -1,54 +1,23 @@
 /***** TABLE *****/
 
 $(function() {
-    $('#columns .input-display a').click(function() {
-        var displayDiv = $(this).parents('.input-display'),
-                editorDiv = displayDiv.next('.input-editor'),
-                input = editorDiv.find('input');
-
-        input.val($(this).text());
-
-        displayDiv.hide();
-        editorDiv.show();
-
-        input.focus();
-        return false;
-    });
-
-    $('#columns .input-editor .cancel-button').click(function() {
-        var editorDiv = $(this).parents('.input-editor'),
-                displayDiv = editorDiv.prev('.input-display');
-
-        editorDiv.hide();
-        displayDiv.show();
-
-        return false;
-    });
-
-    $('#columns .input-editor .ok-button').click(function() {
-        var editorDiv = $(this).parents('.input-editor'),
-                displayDiv = editorDiv.prev('.input-display'),
-                input = editorDiv.find('input');
-
-        if (input.val() && input.val() != displayDiv.children('a').text()) {
-            saveColumnParamChanges(input);
-
-            displayDiv.children('a').text(input.val());
-        }
-
-        editorDiv.hide();
-        displayDiv.show();
-
-        return false;
-    });
-
     $('#columns input[type=checkbox], #columns select').change(function() {
         saveColumnParamChanges($(this));
     });
     
-    $('.color-control').change(function(){
-        $(this).css('color', $(this).val().toLowerCase());
+    $('#columns input[type=text], #columns input[type=number]').inputeditor({
+        applyBtnClass: 'btn-sm',
+        cancelBtnClass: 'btn-sm',
+        applyChanges: function(el) {
+            saveColumnParamChanges(el);
+        }
+    }); 
+
+    $('#columns select.controls').controlselect({
+        btnClass: 'btn-sm',
     });
+
+    $('#columns .color-control').colorselect();    
 });
 
 function saveColumnParamChanges(control) {

@@ -1,7 +1,7 @@
+
+
 <ul class="nav nav-tabs" role="tablist">
     <li class="active"><a href="#params" role="tab" data-toggle="tab">Параметры</a></li>
-    <li><a href="#columns_old" role="tab" data-toggle="tab">Столбцы</a></li>
-    <li><a href="#columns_old2" role="tab" data-toggle="tab">Столбцы</a></li>
     <li><a href="#columns" role="tab" data-toggle="tab">Столбцы</a></li>
 </ul>
 
@@ -91,7 +91,7 @@
                     <div class="form-group">
                         <?=Form::label('order', 'Порядок вывода', array('class' => 'col-sm-3 control-label'))?>
                         <div class="col-sm-9">
-                            <?=Form::input('order', '100', array('type' => 'number', 'class' => 'form-control', 'id' => 'order', 'placeholder' => 'Порядок вывода'))?>
+                            <?=Form::input('order', '100', array('type' => 'number', 'class' => 'form-control', 'id' => 'order'))?>
                         </div>
                     </div>                  
                 </div>  
@@ -100,7 +100,7 @@
                     <div class="form-group">
                         <?=Form::label('width', 'Ширина', array('class' => 'col-sm-3 control-label'))?>
                         <div class="col-sm-9">
-                            <?=Form::input('width', '', array('type' => 'number', 'class' => 'form-control', 'id' => 'width', 'placeholder' => 'Ширина'))?>
+                            <?=Form::input('width', '', array('type' => 'number', 'class' => 'form-control', 'id' => 'width'))?>
                         </div>
                     </div>                  
                 </div>   
@@ -186,402 +186,253 @@
 
         </form>        
     </div>
-
-    <!-- COLUMNS -->
-    <div class="tab-pane fade" id="columns_old">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th style="width: 200px;">Название</th>
-                    <th>Имя столбца</th>
-                    <th>Редактор</th>
-                    <th>Список</th>
-                    <th>Не активен</th>
-                    <th class="sort-number-column">Ширина</th>
-                    <th>Цвет</th>
-                    <th>Выравнивание</th>
-                    <th class="sort-number-column">Редактор сортировка</th>
-                    <th class="sort-number-column">Список сортировка</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>
-<!--                        <div class="input-display">
-                            <a href="#" title="Редактировать">Id</a>
-                        </div>
-                        <div class="input-editor">
-                            <?=Form::input('name', 'Id', array('class' => 'form-control input-sm', 'style' => 'width: 140px;'))?>
-                            <a href="#" class="ok-button" title="Применить"><span style="color: green;" class="glyphicon glyphicon-ok-circle"></span></a>
-                            <a href="#" class="cancel-button" title="Отменить"><span style="color: red;" class="glyphicon glyphicon-remove-circle"></span></a>                        
-                        </div>-->
-                        <?=Cms_Control::columneditor('name', 'Id', array('class' => 'form-control input-sm', 'style' => 'width: 140px;'))?>
-                    </td>
-                    <td>id</td>
-                    <td>
-                        <?=Form::select('edit', $edit_controls, 'Textbox', array('class' => 'form-control input-sm'))?>
-                    </td>
-                    <td>
-                        <?=Form::select('list', $list_controls, 'Checkbox', array('class' => 'form-control input-sm'))?>
-                    </td>
-                    <td style="text-align: center;"><?=Form::checkbox('disabled', '1', FALSE)?></td>
-                    <td style="text-align: center;">
-<!--                        <div class="input-display">
-                            <a href="#" title="Редактировать">0</a>
-                        </div>
-                        <div class="input-editor">
-                            <?=Form::input('edit_width', '0', array('type' => 'number', 'style' => 'width: 65px;', 'class' => 'form-control input-sm'))?>
-                            <a href="#" class="ok-button" title="Применить"><span style="color: green;" class="glyphicon glyphicon-ok-circle"></span></a>
-                            <a href="#" class="cancel-button" title="Отменить"><span style="color: red;" class="glyphicon glyphicon-remove-circle"></span></a>
-                        </div>                        -->
-
-                        <?=Cms_Control::columneditor('edit_width', '0', array('type' => 'number', 'style' => 'width: 65px;', 'class' => 'form-control input-sm'))?>
-                    </td>
-                    <td>
-                        <?=Form::select('color', $colors, 'Black', array('class' => 'form-control input-sm color-control'))?>
-                    </td>
-                    <td><?=Form::select('align', $align, 'Left', array('class' => 'form-control input-sm'))?></td>
-                    <td style="text-align: center;">
-<!--                        <div class="input-display">
-                            <a href="#" title="Редактировать">100</a>
-                        </div>
-                        <div class="input-editor">
-                            <?=Form::input('edit_sort', '100', array('type' => 'number', 'style' => 'width: 65px;', 'class' => 'form-control input-sm'))?>
-                            <a href="#" class="ok-button" title="Применить"><span style="color: green;" class="glyphicon glyphicon-ok-circle"></span></a>
-                            <a href="#" class="cancel-button" title="Отменить"><span style="color: red;" class="glyphicon glyphicon-remove-circle"></span></a>
-                        </div>-->
-
-                        <?=Cms_Control::columneditor('edit_sort', '100', array('type' => 'number', 'style' => 'width: 65px;', 'class' => 'form-control input-sm'))?>
-                    </td>
-                    <td style="text-align: center;">
-<!--                        <div class="input-display">
-                            <a href="#" title="Редактировать">100</a>
-                        </div>
-                        <div class="input-editor">
-                            <?=Form::input('list_sort', '100', array('type' => 'number', 'style' => 'width: 65px;', 'class' => 'form-control input-sm'))?>
-                            <a href="#" class="ok-button" title="Применить"><span style="color: green;" class="glyphicon glyphicon-ok-circle"></span></a>
-                            <a href="#" class="cancel-button" title="Отменить"><span style="color: red;" class="glyphicon glyphicon-remove-circle"></span></a>
-                        </div>-->
-
-                        <?=Cms_Control::columneditor('list_sort', '100', array('type' => 'number', 'style' => 'width: 65px;', 'class' => 'form-control input-sm'))?>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>
-<!--                        <div class="input-display">
-                            <a href="#" title="Редактировать">Id</a>
-                        </div>
-                        <div class="input-editor">
-                            <?=Form::input('name', 'Name', array('class' => 'form-control input-sm', 'style' => 'width: 140px;'))?>
-                            <a href="#" class="ok-button" title="Применить"><span style="color: green;" class="glyphicon glyphicon-ok-circle"></span></a>
-                            <a href="#" class="cancel-button" title="Отменить"><span style="color: red;" class="glyphicon glyphicon-remove-circle"></span></a>                        
-                        </div>-->
-                        <?=Cms_Control::columneditor('name', 'Name', array('class' => 'form-control input-sm', 'style' => 'width: 140px;'))?>
-                    </td>
-                    <td>name</td>
-                    <td>
-                        <?=Form::select('edit', $edit_controls, 'Textbox', array('class' => 'form-control input-sm'))?>
-                    </td>
-                    <td>
-                        <?=Form::select('list', $list_controls, '', array('class' => 'form-control input-sm'))?>
-                    </td>
-                    <td style="text-align: center;"><?=Form::checkbox('disabled', '1', FALSE)?></td>
-                    <td style="text-align: center;">
-<!--                        <div class="input-display">
-                            <a href="#" title="Редактировать">0</a>
-                        </div>
-                        <div class="input-editor">
-                            <?=Form::input('edit_width', '0', array('type' => 'number', 'style' => 'width: 65px;', 'class' => 'form-control input-sm'))?>
-                            <a href="#" class="ok-button" title="Применить"><span style="color: green;" class="glyphicon glyphicon-ok-circle"></span></a>
-                            <a href="#" class="cancel-button" title="Отменить"><span style="color: red;" class="glyphicon glyphicon-remove-circle"></span></a>
-                        </div>                        -->
-
-                        <?=Cms_Control::columneditor('edit_width', '0', array('type' => 'number', 'style' => 'width: 65px;', 'class' => 'form-control input-sm'))?>
-                    </td>
-                    <td>
-                        <?=Form::select('color', $colors, 'Red', array('class' => 'form-control input-sm color-control'))?>
-                    </td>
-                    <td><?=Form::select('align', $align, 'Left', array('class' => 'form-control input-sm'))?></td>
-                    <td style="text-align: center;">
-<!--                        <div class="input-display">
-                            <a href="#" title="Редактировать">100</a>
-                        </div>
-                        <div class="input-editor">
-                            <?=Form::input('edit_sort', '100', array('type' => 'number', 'style' => 'width: 65px;', 'class' => 'form-control input-sm'))?>
-                            <a href="#" class="ok-button" title="Применить"><span style="color: green;" class="glyphicon glyphicon-ok-circle"></span></a>
-                            <a href="#" class="cancel-button" title="Отменить"><span style="color: red;" class="glyphicon glyphicon-remove-circle"></span></a>
-                        </div>-->
-
-                        <?=Cms_Control::columneditor('edit_sort', '100', array('type' => 'number', 'style' => 'width: 65px;', 'class' => 'form-control input-sm'))?>
-                    </td>
-                    <td style="text-align: center;">
-<!--                        <div class="input-display">
-                            <a href="#" title="Редактировать">100</a>
-                        </div>
-                        <div class="input-editor">
-                            <?=Form::input('list_sort', '100', array('type' => 'number', 'style' => 'width: 65px;', 'class' => 'form-control input-sm'))?>
-                            <a href="#" class="ok-button" title="Применить"><span style="color: green;" class="glyphicon glyphicon-ok-circle"></span></a>
-                            <a href="#" class="cancel-button" title="Отменить"><span style="color: red;" class="glyphicon glyphicon-remove-circle"></span></a>
-                        </div>-->
-
-                        <?=Cms_Control::columneditor('list_sort', '100', array('type' => 'number', 'style' => 'width: 65px;', 'class' => 'form-control input-sm'))?>
-                    </td>
-                </tr>                
-            </tbody>
-        </table>
-    </div>
-    
-    <!-- COLUMNS -->
-    <div class="tab-pane fade" id="columns_old2">
-        <div class="row">
-            <div class="col-sm-4">
-                Столбец
-            </div>
-            <div class="col-sm-5">
-                Редактор
-            </div>            
-            <div class="col-sm-3">
-                Список
-            </div> 
-<!--        </div>
-         
-        <div class="row">-->
-            <div class="col-sm-2">
-                Имя столбца
-            </div>
-            <div class="col-sm-2">
-                Название
-            </div>
-            <div class="col-sm-2">
-                Контрол
-            </div>
-            <div class="col-sm-1">
-                Сорт
-            </div>            
-            <div class="col-sm-2">
-                Ограничения
-            </div> 
-            <div class="col-sm-2">
-                Контрол
-            </div>
-            <div class="col-sm-1">
-                Сорт
-            </div>  
-        </div> 
-        
-        <hr />
-        
-        <div class="row">
-            <div class="col-sm-2">
-                id
-            </div>
-            <div class="col-sm-2">
-<!--                        <div class="input-display">
-                            <a href="#" title="Редактировать">Id</a>
-                        </div>
-                        <div class="input-editor">
-                            <?=Form::input('name', 'Id', array('class' => 'form-control input-sm', 'style' => 'width: 140px;'))?>
-                            <a href="#" class="ok-button" title="Применить"><span style="color: green;" class="glyphicon glyphicon-ok-circle"></span></a>
-                            <a href="#" class="cancel-button" title="Отменить"><span style="color: red;" class="glyphicon glyphicon-remove-circle"></span></a>                        
-                        </div>-->
-                        <?=Cms_Control::columneditor('name', 'Id', array('class' => 'form-control input-sm', 'style' => 'width: 140px;'))?>
-            </div>
-            <div class="col-sm-2">
-                <?=Form::select('edit', $edit_controls, 'Textbox', array('class' => 'form-control input-sm'))?>
-            </div>
-            <div class="col-sm-1">
-<!--                        <div class="input-display">
-                            <a href="#" title="Редактировать">100</a>
-                        </div>
-                        <div class="input-editor">
-                            <?=Form::input('edit_sort', '100', array('type' => 'number', 'style' => 'width: 65px;', 'class' => 'form-control input-sm'))?>
-                            <a href="#" class="ok-button" title="Применить"><span style="color: green;" class="glyphicon glyphicon-ok-circle"></span></a>
-                            <a href="#" class="cancel-button" title="Отменить"><span style="color: red;" class="glyphicon glyphicon-remove-circle"></span></a>
-                        </div>-->
-
-                        <?=Cms_Control::columneditor('edit_sort', '100', array('type' => 'number', 'class' => 'form-control input-sm'))?>
-            </div>            
-            <div class="col-sm-2">
-    <div class="input-group">
-      <?=Form::select('edit', $edit_controls, 'Textbox', array('class' => 'form-control input-sm'))?>
-      <span class="input-group-btn">
-        <button class="btn btn-default btn-sm" type="button"><span class="glyphicon glyphicon-cog"></span></button>
-      </span>      
-    </div>
-            </div> 
-            <div class="col-sm-2">
-                Контрол
-            </div>
-            <div class="col-sm-1">
-                Сорт
-            </div>              
-        </div>
-    </div>
     
     <!-- COLUMNS -->
     <div class="tab-pane fade" id="columns">
-       
-        <div class="row">
-            <div class="col-xs-6 col-lg-4">
-                <span style="font-size: 24px;">[ id ]</span>
-            </div>            
-            <div class="col-xs-6 col-lg-3">
-                <?=Cms_Control::columneditor('name', 'Id', array('class' => 'form-control input-sm'))?>
-            </div>
-        </div>
-           
-        <div class="row">
-            <div class="col-xs-12 col-lg-1" style="font-weight: bold;">
-                Редактор:
-            </div>            
-            <div class="col-xs-6 col-lg-3">
-                <div class="input-group">
-                    <span class="input-group-btn">
-                        <button class="btn btn-default btn-sm" type="button" style="vertical-align: top;"><span class="glyphicon glyphicon-cog"></span></button>
-                    </span>                  
-                    <?=Form::select('edit', $edit_controls, 'Textbox', array('class' => 'form-control input-sm'))?>
+        <div class="column-data">
+            <div class="row">
+                <div class="col-xs-6 col-lg-4">
+                    <span style="font-size: 24px;">[ id ]</span>
+                </div>            
+                <div class="col-xs-6 col-lg-3">
+                    <!--<?=Cms_Control::columneditor('name', 'Id', array('class' => 'form-control input-sm'))?>-->
+                    <?=Form::input('name', 'Id', array('class' => 'form-control input-sm'))?>
                 </div>
             </div>
-            <div class="col-xs-6 col-lg-3">
-                <?=Cms_Control::columneditor('edit_sort', '100', array('type' => 'number', 'class' => 'form-control input-sm'))?>
-            </div>
-            <div class="col-xs-12 col-lg-5">
-                <div class="row">
-                    <div class="hidden-sm hidden-xs hidden-md col-lg-4">
-                        <a href="#" class="constraints">Ограничения:</a>
-                    </div>  
-                    <div class="col-xs-12 col-md-6 col-lg-8">
-                        <span class="hidden-lg"><a href="#" class="constraints">Ограничения:</a>&nbsp;&nbsp;</span>
-                        <div class="btn-group">
-                            <button class="btn btn-default btn-sm constraints" type="button">R</button>
-                            <button class="btn btn-default btn-sm constraints" type="button">ML</button>
-                            <button class="btn btn-default btn-sm constraints" type="button">RE</button>
-                            <button class="btn btn-default btn-sm constraints" type="button">Max</button>
-                            <button class="btn btn-default btn-sm constraints" type="button">Min</button>
-                            <button class="btn btn-default btn-sm constraints" type="button">Step</button>                     
-                        </div>   
+
+            <div class="row">
+                <div class="col-xs-12 col-lg-1" style="font-weight: bold;">
+                    Редактор:
+                </div>            
+                <div class="col-xs-6 col-lg-3">
+                    <?=Form::select('edit', $edit_controls, 'Textbox', array('class' => 'form-control input-sm controls'))?>
+                </div>
+                <div class="col-xs-6 col-lg-3">
+                    <?=Form::input('edit_sort', '100', array('type' => 'number', 'class' => 'form-control input-sm'))?>
+                </div>
+                <div class="col-xs-12 col-lg-5">
+                    <div class="row">
+                        <div class="col-xs-6 col-lg-4">
+                            <a href="#" class="validation-rules">Валидация:</a>
+                        </div>  
+                        <div class="col-xs-6 col-lg-8">
+                            <div class="btn-group validation-rules-group">
+                                <button class="btn btn-default btn-sm validation-rules" type="button" title="Required">R</button>
+                                <button class="btn btn-default btn-sm validation-rules" type="button" data-value="255" title="Max length: 255">ML</button>
+                                <button class="btn btn-default btn-sm validation-rules" type="button" data-value="\d [0-9]" title="RegEx (pattern): \d [0-9]">RE</button>
+                                <button class="btn btn-default btn-sm validation-rules" type="button" data-value="10" title="Min: 10">Max</button>
+                                <button class="btn btn-default btn-sm validation-rules" type="button" data-value="20" title="Max: 20">Min</button>
+
+                            </div>   
+                        </div>
                     </div>
-                </div>
-            </div>             
-        </div>
-        <div class="row">
-            <div class="col-xs-12 col-lg-1" style="font-weight: bold;">
-                Список:
-            </div>            
-            <div class="col-xs-6 col-lg-3">
-                <div class="input-group">
-                    <span class="input-group-btn">
-                      <button class="btn btn-default btn-sm" type="button" style="vertical-align: top;"><span class="glyphicon glyphicon-cog"></span></button>
-                    </span>                  
-                    <?=Form::select('list', $list_controls, '', array('class' => 'form-control input-sm'))?>
-                </div>
+                </div>             
             </div>
-            <div class="col-xs-6 col-lg-3">
-                <?=Cms_Control::columneditor('list_sort', '100', array('type' => 'number', 'class' => 'form-control input-sm'))?>
-            </div>
-            <div class="col-xs-12 col-lg-5">
-                <div class="row">
-                    <div class="hidden-sm hidden-xs hidden-md col-lg-4">
-                        Color&nbsp;&&nbsp;Align:
-                    </div>  
-                    <div class="col-xs-6 col-lg-4">
-                        <?=Form::select('color', $colors, 'Navy', array('class' => 'form-control input-sm color-control'))?>
+            <div class="row">
+                <div class="col-xs-12 col-lg-1" style="font-weight: bold;">
+                    Список:
+                </div>            
+                <div class="col-xs-6 col-lg-3">
+                    <?=Form::select('list', $list_controls, '', array('class' => 'form-control input-sm controls'))?>
+                </div>
+                <div class="col-xs-6 col-lg-3">
+                    <?=Form::input('list_sort', '200', array('type' => 'number', 'class' => 'form-control input-sm'))?>
+                </div>
+                <div class="col-xs-12 col-lg-5">
+                    <div class="row">
+                        <div class="hidden-sm hidden-xs hidden-md col-lg-4">
+                            Color&nbsp;&&nbsp;Align:
+                        </div>  
+                        <div class="col-xs-6 col-lg-4">
+                            <?=Form::select('color', $colors, 'Navy', array('class' => 'form-control input-sm color-control'))?>
+                        </div>
+                        <div class="col-xs-6 col-lg-4">
+                            <?=Form::select('align', $align, 'Left', array('class' => 'form-control input-sm'))?>
+                        </div>                    
                     </div>
-                    <div class="col-xs-6 col-lg-4">
-                        <?=Form::select('align', $align, 'Left', array('class' => 'form-control input-sm'))?>
-                    </div>                    
-                </div>
-            </div>      
-        </div>   
+                </div>      
+            </div>   
+        </div>
         
         <hr />
          
-        <div class="row">
-            <div class="col-xs-6 col-lg-4">
-                <span style="font-size: 24px;">[ name ]</span>
-            </div>            
-            <div class="col-xs-6 col-lg-3">
-                <?=Cms_Control::columneditor('name', 'Название', array('class' => 'form-control input-sm'))?>
-            </div>
-        </div>
-           
-        <div class="row">
-            <div class="col-xs-12 col-lg-1" style="font-weight: bold;">
-                Редактор:
-            </div>            
-            <div class="col-xs-6 col-lg-3">
-                <div class="input-group">
-                    <span class="input-group-btn">
-                        <button class="btn btn-default btn-sm" type="button" style="vertical-align: top;"><span class="glyphicon glyphicon-cog"></span></button>
-                    </span>                  
-                    <?=Form::select('edit', $edit_controls, 'Textbox', array('class' => 'form-control input-sm'))?>
+        <div class="column-data">
+            <div class="row">
+                <div class="col-xs-6 col-lg-4">
+                    <span style="font-size: 24px;">[ name ]</span>
+                </div>            
+                <div class="col-xs-6 col-lg-3">
+                    <?=Form::input('name', 'Название', array('class' => 'form-control input-sm'))?>
                 </div>
             </div>
-            <div class="col-xs-6 col-lg-3">
-                <?=Cms_Control::columneditor('edit_sort', '200', array('type' => 'number', 'class' => 'form-control input-sm'))?>
-            </div>
-            <div class="col-xs-12 col-lg-5">
-                <div class="row">
-                    <div class="hidden-sm hidden-xs hidden-md col-lg-4">
-                        <a href="#" class="constraints">Ограничения:</a>
-                    </div>  
-                    <div class="col-xs-12 col-md-6 col-lg-8">
-                        <span class="hidden-lg"><a href="#" class="constraints">Ограничения:</a>&nbsp;&nbsp;</span>
-                        <div class="btn-group">
-                            <button class="btn btn-default btn-sm constraints" type="button">R</button>
-                            <button class="btn btn-default btn-sm constraints" type="button">ML</button>
-                            <button class="btn btn-default btn-sm constraints" type="button">RE</button>
-                            <button class="btn btn-default btn-sm constraints" type="button">Max</button>
-                            <button class="btn btn-default btn-sm constraints" type="button">Min</button>
-                            <button class="btn btn-default btn-sm constraints" type="button">Step</button>                     
-                        </div>   
+
+            <div class="row">
+                <div class="col-xs-12 col-lg-1" style="font-weight: bold;">
+                    Редактор:
+                </div>            
+                <div class="col-xs-6 col-lg-3">
+                    <?=Form::select('edit', $edit_controls, 'Textbox', array('class' => 'form-control input-sm controls'))?>
+                </div>
+                <div class="col-xs-6 col-lg-3">
+                    <?=Form::input('edit_sort', '100', array('type' => 'number', 'class' => 'form-control input-sm'))?>
+                </div>
+                <div class="col-xs-12 col-lg-5">
+                    <div class="row">
+                        <div class="col-xs-6 col-lg-4">
+                            <a href="#" class="validation-rules">Валидация:</a>
+                        </div>  
+                        <div class="col-xs-6 col-lg-8">
+                            <div class="btn-group validation-rules-group">
+                                <button class="btn btn-default btn-sm validation-rules" type="button" title="Required">R</button>
+<!--                                <button class="btn btn-default btn-sm validation-rules" type="button" data-value="255" title="Max length: 255">ML</button>
+                                <button class="btn btn-default btn-sm validation-rules" type="button" data-value="\d [0-9]" title="RegEx (pattern): \d [0-9]">RE</button>-->
+                                <button class="btn btn-default btn-sm validation-rules" type="button" data-value="10" title="Min: 10">Max</button>
+                                <button class="btn btn-default btn-sm validation-rules" type="button" data-value="20" title="Max: 20">Min</button>
+                            </div>   
+                        </div>
                     </div>
-                </div>
-            </div>             
-        </div>
-        <div class="row">
-            <div class="col-xs-12 col-lg-1" style="font-weight: bold;">
-                Список:
-            </div>            
-            <div class="col-xs-6 col-lg-3">
-                <div class="input-group">
-                    <span class="input-group-btn">
-                      <button class="btn btn-default btn-sm" type="button" style="vertical-align: top;"><span class="glyphicon glyphicon-cog"></span></button>
-                    </span>                  
-                    <?=Form::select('list', $list_controls, '', array('class' => 'form-control input-sm'))?>
-                </div>
+                </div>             
             </div>
-            <div class="col-xs-6 col-lg-3">
-                <?=Cms_Control::columneditor('list_sort', '200', array('type' => 'number', 'class' => 'form-control input-sm'))?>
-            </div>
-            <div class="col-xs-12 col-lg-5">
-                <div class="row">
-                    <div class="hidden-sm hidden-xs hidden-md col-lg-4">
-                        Color&nbsp;&&nbsp;Align:
-                    </div>  
-                    <div class="col-xs-6 col-lg-4">
-                        <?=Form::select('color', $colors, 'Maroon', array('class' => 'form-control input-sm color-control'))?>
+            <div class="row">
+                <div class="col-xs-12 col-lg-1" style="font-weight: bold;">
+                    Список:
+                </div>            
+                <div class="col-xs-6 col-lg-3">
+                    <?=Form::select('list', $list_controls, '', array('class' => 'form-control input-sm controls'))?>
+                </div>
+                <div class="col-xs-6 col-lg-3">
+                    <?=Form::input('list_sort', '200', array('type' => 'number', 'class' => 'form-control input-sm'))?>
+                </div>
+                <div class="col-xs-12 col-lg-5">
+                    <div class="row">
+                        <div class="hidden-sm hidden-xs hidden-md col-lg-4">
+                            Color&nbsp;&&nbsp;Align:
+                        </div>  
+                        <div class="col-xs-6 col-lg-4">
+                            <?=Form::select('color', $colors, 'Maroon', array('class' => 'form-control input-sm color-control'))?>
+                        </div>
+                        <div class="col-xs-6 col-lg-4">
+                            <?=Form::select('align', $align, 'Left', array('class' => 'form-control input-sm'))?>
+                        </div>                    
                     </div>
-                    <div class="col-xs-6 col-lg-4">
-                        <?=Form::select('align', $align, 'Left', array('class' => 'form-control input-sm'))?>
-                    </div>                    
-                </div>
-            </div>      
-        </div>   
-        
+                </div>      
+            </div>  
+        </div>
     </div>    
 </div>
 
+<!-- Modal Validation Rules -->
+<div class="modal fade" id="validationRulesModal" tabindex="-1" role="dialog" aria-labelledby="validationRulesModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="validationRulesModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row" data-code="R">
+                    <div class="col-xs-6">
+                        <input class="rule-check" type="checkbox" /> &nbsp;&nbsp;
+                        <strong>Required</strong>
+                    </div>
+                </div>
+                <div class="row" data-code="ML">
+                    <div class="col-xs-6">
+                        <input class="rule-check" type="checkbox" /> &nbsp;&nbsp;
+                        <strong>Max length:</strong>
+                    </div>
+                    <div class="col-xs-6">
+                        <input class="form-control input-sm rule-value" type="number" />
+                    </div>
+                </div>    
+                <div class="row" data-code="RE">
+                    <div class="col-xs-6">
+                        <input class="rule-check" type="checkbox" /> &nbsp;&nbsp;
+                        <strong>RegExp:</strong>
+                    </div>
+                    <div class="col-xs-6">
+                        <input class="form-control input-sm rule-value" type="text" />
+                    </div>
+                </div>  
+                <div class="row" data-code="Max">
+                    <div class="col-xs-6">
+                        <input class="rule-check" type="checkbox" /> &nbsp;&nbsp;
+                        <strong>Max:</strong>
+                    </div>
+                    <div class="col-xs-6">
+                        <input class="form-control input-sm rule-value" type="number" />
+                    </div>
+                </div>   
+                <div class="row" data-code="Min">
+                    <div class="col-xs-6">
+                        <input class="rule-check" type="checkbox" /> &nbsp;&nbsp;
+                        <strong>Min:</strong>
+                    </div>
+                    <div class="col-xs-6">
+                        <input class="form-control input-sm rule-value" type="number" />
+                    </div>
+                </div>                   
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
-    $(function() {
-        $('.color-control').each(function(){
-            $(this).css('color', $(this).val().toLowerCase())
+    $(function(){
+        $('#validationRulesModal input.rule-check').click(function(){
+            var row = $(this).parents('.row');
+            
+            if($(this).is(':checked')){
+                checkRulesRow(row, null);
+            }
+            else{
+                uncheckRulesRow(row);
+            }
         });
-        $('.color-control option').css('color', function(){
-            return $(this).text().toLowerCase();
+        
+        $('.validation-rules').click(function(){
+            // Сбрасываем все в исходное состояние
+            $('#validationRulesModal input.rule-check').prop('checked', false);
+            $('#validationRulesModal input.rule-value')
+                    .val(null)
+                    .attr('disabled', true);
+            $('#validationRulesModal div.row').removeClass('checked');
+
+            // Устанавливаем текущие значения
+            var buttons = $(this).parents('.column-data').find('.validation-rules-group .validation-rules');
+            
+            $.each(buttons, function(index, value){
+                var btn = $(value),
+                    ruleCode = btn.text(),
+                    row = $('#validationRulesModal div.row[data-code='+ruleCode+']');
+                    
+                if(row){
+                    checkRulesRow(row, btn.data('value'));
+                    row.find('input.rule-value').val(btn.data('value'));
+                }
+            });
+            
+            $('#validationRulesModal').modal();
         });
     });
+    
+    function checkRulesRow(row){
+        row.addClass('checked');
+        row.find('input.rule-check').prop('checked', true);
+        row.find('input.rule-value')
+                //.val(value)
+                .attr('disabled', false);        
+    }
+    
+    function uncheckRulesRow(row){
+        row.removeClass('checked');
+        row.find('input.rule-check').prop('checked', false);
+        row.find('input.rule-value')
+                //.val(null)
+                .attr('disabled', true);        
+    }    
 </script>

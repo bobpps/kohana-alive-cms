@@ -52,7 +52,7 @@ class Controller_Admin_Tools extends Controller_Admin_Base {
                 'Other' => 'Other'
             ),
             'list_controls' => array(
-                'Нет' => 'Нет', 
+                '0' => 'Нет', 
                 'Checkbox' => 'Checkbox', 
                 'Textbox' => 'Textbox', 
                 'Other' => 'Other'
