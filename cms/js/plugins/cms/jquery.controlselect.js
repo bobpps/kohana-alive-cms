@@ -3,18 +3,27 @@
 
 
 /*!
+ * Применяется для добавления кнопки "Настройки" к тэгу "select".
+ * Данный тег должен содержать аттрибут "data-editable-controls",
+ * в котором перечислены ключи элементов списка, для которых кнопка
+ * должна быть активна.
+ * 
+ * Пример: Form::select('list', $list_controls, '', 
+        array('class' => 'form-control input-sm controls', 'data-editable-items' => '["Textbox", "Other"]'))
+ * 
  * паттерн простого плагина jQuery  See http://habrahabr.ru/sandbox/39442/
- * автор: @ajpiano
- * дополнения: @addyosmani
- * лицензия MIT
  */
 
 ;(function ( $, window, document, undefined ) {
     // определяем необходимые параметры по умолчанию
     var pluginName = 'controlselect',
+        // TODO: Add description of params
         defaults = {
             btnClass: '',
-            btnIcon: 'glyphicon glyphicon-cog',            
+            btnIcon: 'glyphicon glyphicon-cog',  
+            clickButton: function(value){
+                console.log('Click button. Value - ' + value);
+            }
         };
 
     // конструктор плагина
@@ -32,35 +41,43 @@
     ControlSelect.prototype.init = function () {
         // Тут пишем код самого плагина
        
-        var el = $(this.element);
-        var o = this.options;
-
-        var btnClass = o.btnClass === ''
-                ? '' : ' ' + o.btnClass;
-
-        // Создаем дополнительную разметку
-        el.wrap($('<div/>', {
-            class: 'input-group'
-        }));   
+        var el = $(this.element),
+            o = this.options,
+            editableItems = el.data('editableItems');
         
-        var span = $('<span/>', {
-            class: "input-group-btn"
-        }).insertBefore(el);  
-        
-        var btn = $('<button/>', {
-            title: 'Настройки',
-            class: 'btn btn-default' + btnClass,
-            type: 'button',
-            disabled: el.val() == 0
-        }).appendTo(span);
+        if(editableItems && editableItems.length){
 
-        var btnIcon = $('<span/>', {
-            class: o.btnIcon
-        }).appendTo(btn);
-        
-        el.change(function(){
-            btn.attr('disabled', el.val() == 0)
-        });
+            var btnClass = o.btnClass === ''
+                    ? '' : ' ' + o.btnClass;
+
+            // Создаем дополнительную разметку
+            el.wrap($('<div/>', {
+                class: 'input-group'
+            }));   
+
+            var span = $('<span/>', {
+                class: "input-group-btn"
+            }).insertBefore(el);  
+
+            var btn = $('<button/>', {
+                title: 'Настройки',
+                class: 'btn btn-default' + btnClass,
+                type: 'button',
+                disabled: $.inArray(el.val(), editableItems) === -1 //Дизеблим, если элемента нет в списке редактируемых
+            }).appendTo(span);
+            
+            btn.click(function(){
+                o.clickButton(el.val());
+            });
+
+            var btnIcon = $('<span/>', {
+                class: o.btnIcon
+            }).appendTo(btn);
+
+            el.change(function(){
+                btn.attr('disabled', $.inArray(el.val(), editableItems) === -1)
+            });
+        }
     };
 
     // Простой декоратор конструктора,

@@ -47,3 +47,15 @@
 #validationRulesModal .row.checked strong{
     font-weight: bold;
 }
+
+.loading{
+    padding: 10px 10px 20px 10px;
+    text-align: center;
+    background: url(/cms/images/ajax-loader.gif) no-repeat bottom center;
+    display: none;
+}
+
+#structure .text-field{
+    padding-top: 7px;
+    overflow-x: hidden;
+}

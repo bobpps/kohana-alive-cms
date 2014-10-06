@@ -4,8 +4,8 @@ defined('SYSPATH') or die('No direct script access.');
 
 abstract class Controller_Base_Ajax extends Controller {
 
-    public $result = array("success" => TRUE);
-    public $error = NULL;
+    private $result = array("success" => TRUE);
+    private $error = NULL;
 
     public function before() {
         if (!$this->request->is_ajax()) {
@@ -24,9 +24,15 @@ abstract class Controller_Base_Ajax extends Controller {
         $this->response->body(json_encode($this->result));
         $this->response->headers('Content-Type', 'application/json');
         $this->response->send_headers();
-        //echo json_encode($this->result);
         
         parent::after();
     }
+    
+    protected function add_result_data($key, $value){
+        $this->result[$key] = $value;
+    }
 
+    protected function set_error($error_msg){
+        $this->error = $error_msg;
+    }
 }

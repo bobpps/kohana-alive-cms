@@ -13,12 +13,24 @@
 
     // определяем необходимые параметры по умолчанию
     var pluginName = 'inputeditor',
+    
+        /*
+         *  applyBtnClass   {string}    Дополнительные классы для кнопки "Применить"
+         *  cancelBtnClass  {string}    Дополнительные классы для кнопки "Отменить"  
+         *  applyBtnIcon    {string}    Классы для иконки к кнопке "Применить"
+         *  cancelBtnIcon   {string}    Классы для иконки к кнопке "Отменить"
+         *  applyChanges    {function}  Вызывается при нажатии кнопки "Применить"
+         *                              В параметре "el" возвращается текущий jQuery элемент
+         */
         defaults = {
             applyBtnClass: '',
             cancelBtnClass: '',
             applyBtnIcon: 'glyphicon glyphicon-ok-sign',
             cancelBtnIcon: 'glyphicon glyphicon-remove-sign',
-            applyChanges: function(el) { },
+            applyChanges: function(el) { 
+                console.log('Apply changes. Value: ' + el.val());
+            },
+            // TODO: Get rid of this shit. Make parameters which set color.
             setInputColor: function(el, isChanged){
                 el.css('color', isChanged ? '' : 'black');
             }
@@ -85,6 +97,9 @@
         var disableButtons = function(disabled) {
             applyBtn.attr('disabled', disabled);
             cancelBtn.attr('disabled', disabled);
+            
+            span.css('display', disabled ? 'none' : '');
+            //cancelBtn.css('display', disabled ? 'none' : '');
 
             o.setInputColor(el, disabled);
         };

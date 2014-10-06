@@ -4,9 +4,6 @@
 
 /*!
  * паттерн простого плагина jQuery See http://habrahabr.ru/sandbox/39442/
- * автор: @ajpiano
- * дополнения: @addyosmani
- * лицензия MIT
  */
 
 ;(function ( $, window, document, undefined ) {
