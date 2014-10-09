@@ -59,3 +59,18 @@
     padding-top: 7px;
     overflow-x: hidden;
 }
+#structure .header-btn{
+    top: -7px;
+}
+#structure .table-item{
+    vertical-align: middle;
+}
+
+#structure .form-group {
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+#structure .selected-row{
+    background-color: #efefef;
+}

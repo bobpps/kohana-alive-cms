@@ -33,6 +33,7 @@ class Controller_Admin_Base extends Controller_Template {
         $this->add_script('cms/js/bootstrap.min.js');
         $this->add_script('cms/js/plugins/metisMenu/jquery.metisMenu.js');
         $this->add_script('cms/js/plugins/cms/jquery.inputeditor.js');  
+        $this->add_script('cms/js/plugins/cms/jquery.inputeditor2.js');          
         $this->add_script('cms/js/plugins/cms/jquery.controlselect.js');
         $this->add_script('cms/js/plugins/cms/jquery.colorselect.js');
         $this->add_script('cms/js/sb-admin.js');

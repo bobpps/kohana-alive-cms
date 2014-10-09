@@ -176,7 +176,56 @@ $(function() {
             saveTableParamChanges(el);
         }
     }); 
+    
+    $('#structure input[type=checkbox]').prop('checked', false);
+    
+    $('#structure .table-header input[type=checkbox]').change(function(){
+        $('#structure .table-item input[type=checkbox]').prop('checked', $(this).is(':checked'));
+        
+        var rows = $(this).parents('#structure').find('.table-item');
+        
+        $(this).is(':checked')
+            ? rows.addClass('selected-row')
+            : rows.removeClass('selected-row');        
+    });
+    
+    $('#structure .table-item input[type=checkbox]').change(function(){
+        $(this).is(':checked')
+            ? $(this).parents('.table-item').addClass('selected-row')
+            : $(this).parents('.table-item').removeClass('selected-row');
+    });
+    
+    $('#structure #exportBtn').click(function(){
+        var data = getSelectedTables();
+        
+        if(data){
+            console.log(data);
+        }
+    });
+    
+    $('#structure #removeBtn').click(function(){
+        var data = getSelectedTables();
+        
+        if(data){
+            console.log(data);
+        }
+    });    
 });
+
+function getSelectedTables(){
+    var data = [];
+    
+    $('#structure .table-item input[type=checkbox]:checked').each(function(){
+        data.push($(this).attr('name'));
+    });
+
+    if(!data.length){
+        alert('Необходимо выбрать хотя бы одну таблицу');
+        return null;
+    }
+    
+    return data;
+}
 
 function saveTableParamChanges(el){
     var row = el.parents('.table-item'),

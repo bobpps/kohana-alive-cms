@@ -3,11 +3,20 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 Найдены таблицы:
+                <div class="pull-right btn-group header-btn">
+                    <button id="exportBtn" type="button" class="btn btn-default" title="Экспорт">
+                        <span class="fa fa-download"></span>
+                    </button>
+                    <button id="removeBtn" type="button" class="btn btn-default" title="Удалить">
+                        <span class="fa fa-trash-o"></span>
+                    </button>                
+                </div>                
             </div>
+
             <!-- /.panel-heading -->
             <div class="panel-body">
 
-                <div class="row">
+                <div class="row table-header">
                     <div class="col-xs-8 col-md-6 col-lg-4">
                         <div class="col-xs-2">
                             <input type="checkbox" />
@@ -45,13 +54,13 @@
                     <div class="col-xs-8 col-md-6 col-lg-4">
                         <div class="col-xs-2">
                             <div class="text-field">
-                                <input type="checkbox" />
+                                <input type="checkbox" name="test_table" />
                             </div>
                         </div>
                         <div class="col-xs-5">
                             <div class="form-group">
                                 <div class="text-field">
-                                    <a class="alias" href="<?= Cms_Urlmanager::get_tools_url('table', 'app_html_blocks') ?>">test_table</a>
+                                    <a class="alias" href="<?= Cms_Urlmanager::get_tools_url('table', 'test_table') ?>">test_table</a>
                                 </div>
                             </div>
                         </div>
@@ -83,13 +92,13 @@
                     <div class="col-xs-8 col-md-6 col-lg-4">
                         <div class="col-xs-2">
                             <div class="text-field">
-                                <input type="checkbox" />
+                                <input type="checkbox" name="first_table" />
                             </div>
                         </div>
                         <div class="col-xs-5">
                             <div class="form-group">
                                 <div class="text-field">
-                                    <a class="alias" href="<?= Cms_Urlmanager::get_tools_url('table', 'app_html_blocks') ?>">first_table</a>
+                                    <a class="alias" href="<?= Cms_Urlmanager::get_tools_url('table', 'first_table') ?>">first_table</a>
                                 </div>
                             </div>
                         </div>
@@ -121,13 +130,13 @@
                     <div class="col-xs-8 col-md-6 col-lg-4">
                         <div class="col-xs-2">
                             <div class="text-field">
-                                <input type="checkbox" />
+                                <input type="checkbox" name="second_table" />
                             </div>
                         </div>
                         <div class="col-xs-5">
                             <div class="form-group">
                                 <div class="text-field">
-                                    <a class="alias" href="<?= Cms_Urlmanager::get_tools_url('table', 'app_html_blocks') ?>">second_table</a>
+                                    <a class="alias" href="<?= Cms_Urlmanager::get_tools_url('table', 'second_table') ?>">second_table</a>
                                 </div>
                             </div>
                         </div>
@@ -158,6 +167,12 @@
             <!-- /.panel-body -->
         </div>
         <!-- /.panel -->
+        <button id="importBtn" type="submit" class="btn btn-default pull-right"><span class="fa fa-upload fa-fw"></span> Импорт</button>
     </div>
     <!-- /.col-lg-12 -->
+    
+
+    
+    
+
 </div>

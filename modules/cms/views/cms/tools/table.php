@@ -1,4 +1,19 @@
+<div class="form-group">
+    <input type="number" class="form-control" id="test" value="100" />
+</div>
 
+<script>
+    $(function(){
+        $('#test').inputeditor2();
+    });
+</script>
+
+<!--<div class="input-group">
+    <input type="text" class="form-control" />
+    <span class="input-group-btn">
+        <button class="btn btn-default" type="button">Go!</button>
+    </span>    
+</div> /input-group -->
 
 <ul class="nav nav-tabs" role="tablist">
     <li class="active"><a href="#params" role="tab" data-toggle="tab">Параметры</a></li>
