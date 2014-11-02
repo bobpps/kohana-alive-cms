@@ -13,63 +13,51 @@
 
     // определяем необходимые параметры по умолчанию
     var pluginName = 'inputeditor2',
-    
-        /*
-         *  applyBtnClass   {string}    Дополнительные классы для кнопки "Применить"
-         *  cancelBtnClass  {string}    Дополнительные классы для кнопки "Отменить"  
-         *  applyBtnIcon    {string}    Классы для иконки к кнопке "Применить"
-         *  cancelBtnIcon   {string}    Классы для иконки к кнопке "Отменить"
-         *  applyChanges    {function}  Вызывается при нажатии кнопки "Применить"
-         *                              В параметре "el" возвращается текущий jQuery элемент
-         */
-        defaults = {
-            applyBtnClass: '',
-            //cancelBtnClass: '',
-            applyBtnIcon: 'glyphicon glyphicon-ok-sign',
-            //cancelBtnIcon: 'glyphicon glyphicon-remove-sign',
-            applyChanges: function(el) { 
-                console.log('Apply changes. Value: ' + el.val());
-            },
-            // TODO: Get rid of this shit. Make parameters which set color.
-            setInputColor: function(el, isChanged){
-                el.css('color', isChanged ? '' : 'blue');
-            }
-        };
+            /*
+             *  applyBtnClass   {string}    Дополнительные классы для кнопки "Применить"
+             *  applyBtnIcon    {string}    Классы для иконки к кнопке "Применить"
+             *  editingColor    {string}    Цвет редактируемого поля
+             */
+            defaults = {
+                applyBtnClass: '',
+                applyBtnIcon: 'glyphicon glyphicon-ok-sign',
+                editingColor: 'blue'
+            };
 
     // конструктор плагина
-    function InputEditor2( element, options ) {
-        this.element = element;
-
-        this.options = $.extend( {}, defaults, options) ;
-
-        this._defaults = defaults;
-        this._name = pluginName;
-
-        this.init();
-    }
-
-    InputEditor2.prototype.init = function () {
-        // Тут пишем код самого плагина
+    function InputEditor2(element, options) {
+        var me = this;
         
-        var el = $(this.element);
-        var o = this.options;
+        me.element = element;
 
-        //var disabledBtn = el.val() === el.attr('value');
+        me.options = $.extend({}, defaults, options);
 
-        var applyBtnClass = o.applyBtnClass === ''
-                ? '' : ' ' + o.applyBtnClass;
-//        var cancelBtnClass = o.cancelBtnClass === ''
-//                ? '' : ' ' + o.cancelBtnClass;            
+        me._defaults = defaults;
+        me._name = pluginName;
+        
+        me.wrapper = null;
+        me.span = null;
+
+        me.init();
+    }
+    
+    InputEditor2.prototype.init = function() {
+        // Тут пишем код самого плагина
+
+        var me = this,
+            el = $(me.element),
+            o = me.options,
+            applyBtnClass = o.applyBtnClass === ''
+                ? '' 
+                : ' ' + o.applyBtnClass;
 
         // Создаем дополнительную разметку
         el.wrap($('<div/>', {
             class: 'wrapper-inputeditor'
         }));
-        
+
         var wrapperDiv = el.parents('.wrapper-inputeditor');
-
-        //o.setInputColor(el, disabledBtn);
-
+        
         var span = $('<span/>', {
             class: "input-group-btn"
         }).insertAfter(el).hide();
@@ -77,146 +65,96 @@
         var applyBtn = $('<button/>', {
             title: 'Применить',
             class: 'btn btn-default' + applyBtnClass,
-            type: 'button',
-            //disabled: disabledBtn
+            type: 'button'
         }).appendTo(span);
 
-        var applyBtnIcon = $('<span/>', {
+        $('<span/>', {
             class: o.applyBtnIcon
         }).appendTo(applyBtn);
-        
 
-        
-        var showBtn = function(isChanged){
-            if(isChanged){
-                $(wrapperDiv).addClass('input-group');
-                span.css('display', 'table-cell');
-                o.setInputColor(el, false);
-                //el.focus();
-                //console.log('show');
-            }
-            else{
-                wrapperDiv.removeClass('input-group');
-                span.hide();
-                o.setInputColor(el, true);   
-                el.val(el.attr('value'));
-                //console.log('hide');
-            }
-        };
-       
-        el.focus(function(){
-            showBtn(el.val() != el.attr('value'));
+        el.focus(function() {
+            me.showBtn(el.val() != el.attr('value'));
         });
-        
-        el.blur(function(){
-            setTimeout(function(){
-                if(!applyBtn.is(':focus')) {
-                    showBtn(false);
+
+        el.blur(function() {
+            setTimeout(function() {
+                if (!applyBtn.is(':focus')) {
+                    me.showBtn(false);
                 }
-            },150);
-        });  
-        
-        applyBtn.click(function(){
-            //TODO save it
+            }, 150);
+        });
+
+        applyBtn.click(function() {
             // Костыль для NUMBER TYPE
-            if(el.val() === '' && el.is('input[type=number]')){
+            if (el.val() === '' && el.is('input[type=number]')) {
                 el.val(el.attr('value'));
-                //showBtn(false);
-                //return;
             }
-            else{
+
+            //applyChanges
+            if(typeof o.applyChanges == 'function' && el.val() != el.attr('value')){
+                o.applyChanges.call(me, el);
                 el.attr('value', el.val());
             }
-            
-            
-            showBtn(false);
+
+            me.showBtn(false);
+        });
+
+        applyBtn.blur(function() {
+            me.showBtn(false);
+        });
+
+        el.change(function() {
+            // Если изменили значение поля NUMBER с помощью стандартных кнопок, отправляем данные на сервер
+            if(typeof o.applyChanges == 'function' && el.is('input[type=number]') && el.val() != el.attr('value')){
+                o.applyChanges.call(me, el);
+            } 
+            else{
+                me.showBtn(el.val() != el.attr('value'));
+            }
+        });
+
+        el.keyup(function(e) {
+            var code = (e.keyCode ? e.keyCode : e.which);
+            if (code == 13) {
+                e.preventDefault();
+                applyBtn.focus();
+                applyBtn.click();                
+            }
+            else {
+                me.showBtn(el.val() != el.attr('value'));
+            }
         });
         
-        applyBtn.blur(function(){
-            showBtn(false);
-        });        
-        
-        el.keyup(function(e) {
-            //alert("up");
-            var code = (e.keyCode ? e.keyCode : e.which);
-            //if (code==13) {
-                e.preventDefault();
-            //}
-
-            if (code == 32 || code == 13 || code == 188 || code == 186) {
-                applyBtn.focus();
-                applyBtn.click();
-            }
-            else{
-                showBtn(el.val() != el.attr('value'));
-            }
-        });        
-
-//        var cancelBtn = $('<button/>', {
-//            title: 'Отменить',
-//            class: 'btn btn-default' + cancelBtnClass,
-//            type: 'button',
-//            disabled: disabledBtn
-//        }).appendTo(span);
-//
-//        var cancelBtnIcon = $('<span/>', {
-//            class: o.cancelBtnIcon
-//        }).appendTo(cancelBtn);
-
-//        var disableButtons = function(disabled) {
-//            applyBtn.attr('disabled', disabled);
-//            cancelBtn.attr('disabled', disabled);
-//            
-//            span.css('display', disabled ? 'none' : '');
-//            //cancelBtn.css('display', disabled ? 'none' : '');
-//
-//            o.setInputColor(el, disabled);
-//        };
-//
-//        // Если текст не совпадает с исходним - дизеблим кнопки
-//        el.keypress(function() {
-//            setTimeout(function() {
-//                disableButtons(el.val() === el.attr('value'));
-//            }, 100);
-//        });
-//
-//        el.change(function() {
-//            setTimeout(function() {
-//                disableButtons(el.val() === el.attr('value'));
-//            }, 100);
-//        });
-//
-//        // При нажатии Cancel восстанавливаем все в исходное положение
-//        cancelBtn.click(function() {
-//            el.val(el.attr('value'));
-//            disableButtons(true);
-//        });
-//
-//        // При нажатии Apply вызываем функцию из options
-//        applyBtn.click(function() {
-//            // Костыль для NUMBER TYPE
-//            if(el.val() === '' && el.is('input[type=number]')){
-//                el.val(el.attr('value'));
-//                disableButtons(true);
-//                return;
-//            }
-//
-//            el.attr('value', el.val());
-//
-//            o.applyChanges(el);
-//
-//            disableButtons(true);
-//        });          
+        me.wrapper = wrapperDiv;
+        me.span = span;        
     };
+    
+    InputEditor2.prototype.showBtn = function(isChanged) {
+        var me = this,
+            el = $(me.element),
+            o = me.options;
+        
+        if (isChanged) {
+            $(me.wrapper).addClass('input-group');
+            me.span.css('display', 'table-cell');
+            el.css('color', o.editingColor);
+        }
+        else {
+            me.wrapper.removeClass('input-group');
+            me.span.hide();
+            el.css('color', '');
+            el.val(el.attr('value'));
+        }
+    };    
 
     // Простой декоратор конструктора,
     // предотвращающий дублирование плагинов
-    $.fn[pluginName] = function ( options ) {
-        return this.each(function () {
+    $.fn[pluginName] = function(options) {
+        return this.each(function() {
             if (!$.data(this, 'plugin_' + pluginName)) {
                 $.data(this, 'plugin_' + pluginName,
-                new InputEditor2( this, options ));
+                        new InputEditor2(this, options));
             }
         });
     };
-})( jQuery, window, document );
+})(jQuery, window, document);

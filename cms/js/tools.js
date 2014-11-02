@@ -6,7 +6,7 @@ $(function() {
         saveColumnParamChanges($(this));
     });
     
-    $('#columns input[type=text], #columns input[type=number]').inputeditor({
+    $('#columns input[type=text], #columns input[type=number]').inputeditor2({
         applyBtnClass: 'btn-sm',
         cancelBtnClass: 'btn-sm',
         applyChanges: function(el) {
@@ -37,12 +37,14 @@ function saveColumnParamChanges(control) {
     {
         beforeSend: function(){
             control.attr('disabled', true);
+            showSmallLoader(control);
         },
         success: function(result){
             alert(result.msg);
         },
         complete: function(){
             control.attr('disabled', false);
+            hideSmallLoader(control);
         }
     });
 }
@@ -169,7 +171,7 @@ $(function() {
         saveTableParamChanges($(this));
     });
     
-    $('#structure input[type=text], #structure input[type=number]').inputeditor({
+    $('#structure input[type=text], #structure input[type=number]').inputeditor2({
         applyBtnClass: 'btn-sm',
         cancelBtnClass: 'btn-sm',
         applyChanges: function(el) {
@@ -242,17 +244,39 @@ function saveTableParamChanges(el){
     {
         beforeSend: function(){
             el.attr('disabled', true);
+            showSmallLoader(el);
         },
         success: function(result){
             alert(result.msg);
         },
         complete: function(){
             el.attr('disabled', false);
+            hideSmallLoader(el);
         }
     });
 }
 
 
+function showSmallLoader(el){
+    var span = $('<span/>', {
+        class: 'small-loader'
+    });
+    
+    var right = null;
+    if(el.is('[type=number]')) right = 46;
+    if(el.is('select')) right = 36;    
+    
+    if(right){
+        span.css('right', right);
+    };
+            
+    span.insertAfter(el);
+}
 
-
-
+function hideSmallLoader(el){
+    var span = el.next('span.small-loader');
+    
+    if(span){
+        span.remove();
+    }
+}

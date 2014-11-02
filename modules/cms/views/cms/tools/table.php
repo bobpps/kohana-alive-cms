@@ -1,20 +1,3 @@
-<div class="form-group">
-    <input type="number" class="form-control" id="test" value="100" />
-</div>
-
-<script>
-    $(function(){
-        $('#test').inputeditor2();
-    });
-</script>
-
-<!--<div class="input-group">
-    <input type="text" class="form-control" />
-    <span class="input-group-btn">
-        <button class="btn btn-default" type="button">Go!</button>
-    </span>    
-</div> /input-group -->
-
 <ul class="nav nav-tabs" role="tablist">
     <li class="active"><a href="#params" role="tab" data-toggle="tab">Параметры</a></li>
     <li><a href="#columns" role="tab" data-toggle="tab">Столбцы</a></li>
@@ -221,8 +204,7 @@
                     Редактор:
                 </div>            
                 <div class="col-xs-6 col-lg-3">
-                    <?= Form::select('edit', $edit_controls, 'Textbox', array('class' => 'form-control input-sm controls', 'data-editable-items' => $edit_controls_editable))
-                    ?>
+                    <?= Form::select('edit', $edit_controls, 'Textbox', array('class' => 'form-control input-sm controls', 'data-editable-items' => $edit_controls_editable)) ?>
                 </div>
                 <div class="col-xs-6 col-lg-3">
                     <?= Form::input('edit_sort', '100', array('type' => 'number', 'class' => 'form-control input-sm')) ?>

@@ -20,10 +20,7 @@
         // TODO: Add description of params
         defaults = {
             btnClass: '',
-            btnIcon: 'glyphicon glyphicon-cog',  
-            clickButton: function(value){
-                console.log('Click button. Value - ' + value);
-            }
+            btnIcon: 'glyphicon glyphicon-cog'
         };
 
     // конструктор плагина
@@ -41,8 +38,9 @@
     ControlSelect.prototype.init = function () {
         // Тут пишем код самого плагина
        
-        var el = $(this.element),
-            o = this.options,
+        var me = this,
+            el = $(me.element),
+            o = me.options,
             editableItems = el.data('editableItems');
         
         if(editableItems && editableItems.length){
@@ -67,7 +65,9 @@
             }).appendTo(span);
             
             btn.click(function(){
-                o.clickButton(el.val());
+                if(typeof o.clickButton == 'function'){
+                    o.clickButton.call(me, el.val());
+                }                  
             });
 
             var btnIcon = $('<span/>', {

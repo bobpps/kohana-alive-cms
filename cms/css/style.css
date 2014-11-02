@@ -2,3 +2,9 @@
     font-size: 32px;
     color: #999999;
 }
+.small-loader{
+    display: block;
+    background: url(/cms/images/ajax-loader2.gif) no-repeat center center;
+    height: 16px;
+    width: 16px;
+}

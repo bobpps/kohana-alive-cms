@@ -4,9 +4,6 @@
 
 /*!
  * паттерн простого плагина jQuery  See http://habrahabr.ru/sandbox/39442/
- * автор: @ajpiano
- * дополнения: @addyosmani
- * лицензия MIT
  */
 
 ;(function ( $, window, document, undefined ) {
@@ -19,21 +16,14 @@
          *  cancelBtnClass  {string}    Дополнительные классы для кнопки "Отменить"  
          *  applyBtnIcon    {string}    Классы для иконки к кнопке "Применить"
          *  cancelBtnIcon   {string}    Классы для иконки к кнопке "Отменить"
-         *  applyChanges    {function}  Вызывается при нажатии кнопки "Применить"
-         *                              В параметре "el" возвращается текущий jQuery элемент
+         *  editingColor    {string}    Цвет редактируемого поля
          */
         defaults = {
             applyBtnClass: '',
             cancelBtnClass: '',
             applyBtnIcon: 'glyphicon glyphicon-ok-sign',
             cancelBtnIcon: 'glyphicon glyphicon-remove-sign',
-            applyChanges: function(el) { 
-                console.log('Apply changes. Value: ' + el.val());
-            },
-            // TODO: Get rid of this shit. Make parameters which set color.
-            setInputColor: function(el, isChanged){
-                el.css('color', isChanged ? '' : 'black');
-            }
+            editingColor: 'black'
         };
 
     // конструктор плагина
@@ -50,9 +40,10 @@
 
     InputEditor.prototype.init = function () {
         // Тут пишем код самого плагина
+        var me = this;
         
-        var el = $(this.element);
-        var o = this.options;
+        var el = $(me.element);
+        var o = me.options;
 
         var disabledBtn = el.val() === el.attr('value');
 
@@ -66,7 +57,7 @@
             class: 'input-group'
         }));
 
-        o.setInputColor(el, disabledBtn);
+        el.css('color', disabledBtn ? '' : o.editingColor);
 
         var span = $('<span/>', {
             class: "input-group-btn"
@@ -97,11 +88,8 @@
         var disableButtons = function(disabled) {
             applyBtn.attr('disabled', disabled);
             cancelBtn.attr('disabled', disabled);
-            
-            span.css('display', disabled ? 'none' : '');
-            //cancelBtn.css('display', disabled ? 'none' : '');
 
-            o.setInputColor(el, disabled);
+            el.css('color', disabledBtn ? '' : o.editingColor);
         };
 
         // Если текст не совпадает с исходним - дизеблим кнопки
@@ -134,7 +122,9 @@
 
             el.attr('value', el.val());
 
-            o.applyChanges(el);
+            if(typeof o.applyChanges == 'function'){
+                o.applyChanges.call(me, el);
+            }            
 
             disableButtons(true);
         });          
