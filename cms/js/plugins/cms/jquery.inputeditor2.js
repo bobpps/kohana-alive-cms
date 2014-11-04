@@ -106,7 +106,8 @@
         el.change(function() {
             // Если изменили значение поля NUMBER с помощью стандартных кнопок, отправляем данные на сервер
             if(typeof o.applyChanges == 'function' && el.is('input[type=number]') && el.val() != el.attr('value')){
-                o.applyChanges.call(me, el);
+                //o.applyChanges.call(me, el);
+                me.changeNumber(el.val());
             } 
             else{
                 me.showBtn(el.val() != el.attr('value'));
@@ -145,7 +146,19 @@
             el.css('color', '');
             el.val(el.attr('value'));
         }
-    };    
+    };  
+    
+    InputEditor2.prototype.changeNumber = function(val) {
+        var me = this,
+            el = $(me.element),
+            o = me.options;
+    
+        setTimeout(function(){
+            if(val === el.val()){
+                o.applyChanges.call(me, el);
+            }            
+        }, 500);
+    };
 
     // Простой декоратор конструктора,
     // предотвращающий дублирование плагинов
