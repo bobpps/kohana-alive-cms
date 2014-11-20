@@ -2,6 +2,9 @@
 
 class Cms_Structure implements Cms_iStructure {
 
+    const STRUCTURE_PATH = 'cms/structure';
+    const STRUCTURE_FILE_EXT = 'table';    
+    
     private $_alias; 
     private $_params;
         
@@ -11,7 +14,7 @@ class Cms_Structure implements Cms_iStructure {
      */
     function __construct($alias, $is_new = false) {
         // Check that the directory is exist and create one if it needs.
-        Cms_Structure::check_dir_exist();
+        self::check_dir_exist();
         
         $this->_alias = $alias;
         
@@ -32,88 +35,7 @@ class Cms_Structure implements Cms_iStructure {
             return NULL;
         }
     }    
-    
-    /**
-     * 
-     * @return array
-     */
-    public static function get_all(){
-        Cms_Structure::check_dir_exist();
-        
-        $files = scandir(DOCROOT . Cms::STRUCTURE_PATH);
-        $tables = array();
-        foreach ($files as $file) {
-            if(strpos($file, '.'.Cms::STRUCTURE_FILE_EXT) > 0){
-                $file_name = Cms_Structure::create_file_name(str_replace('.'.Cms::STRUCTURE_FILE_EXT, '', $file));
-                
-                if(file_exists($file_name)){
-                    $content = file_get_contents($file_name);
-                    $data = json_decode($content, TRUE);
-                    $tables[$data['alias']] = $data;
-                }                
-            }
-        }
-        
-        return $tables;
-    }
-    
-    public static function get_all_table_names(){
-        $tables = Cms_Structure::get_all();
-        $table_names = array();
-        
-        foreach ($tables as $alias => $data){
-            if(Arr::get($table_names, $data['table_name']) == NULL){
-                $table_names[] = $data['table_name'];
-            }
-        }
-        
-        return $table_names;
-    }    
-    
-    /**
-     * 
-     * @param string $table_name
-     * @param array $ident_rules
-     * @param array $columns
-     * @return \Cms_Structure
-     */
-    public static function create($table_name, array $columns, array $columns_mapping, array $params, array $default_column_config){
-        $alias = Cms_Structure::get_correct_alias($table_name);
-        
-        $new_table = new Cms_Structure($alias, TRUE);
-        
-        $params['alias'] = $alias;
-        $params['table_name'] = $table_name;
-        if(!Arr::get($params, 'name')){
-            $params['name'] = str_replace('_', ' ', Text::ucfirst($table_name));
-        }
-        
-        // Перебираем столбцы
-        foreach ($columns as $column_name => $column_params) {
-            $column = $default_column_config;
-            $column['name'] = str_replace('_', ' ', Text::ucfirst($column_name));
-            
-            // Перебираем правила
-            foreach ($columns_mapping as $rule) {
-                // Если условия совпали - применяем данные
-                if(self::check_mapping_rule($column_params, $rule['matching']))
-                {
-                    // Форматируем данные
-                    $rule_data = self::set_value_from_params($column_params, $rule['data']);
-                    $column = Arr::merge($column, $rule_data);
-                    
-                    // Если правило не сквозное - прекращаем перебор правил
-                    if(!$rule['through']) break;
-                }
-            }
-            
-            // Добавляем столбец в параметры таблицы
-            $params['columns'][$column_name] = $column;
-        }
-        
-        $new_table->save_params($params);
-        return $new_table;
-    }
+
     
     /**
      * 
@@ -180,88 +102,28 @@ class Cms_Structure implements Cms_iStructure {
 //        $this->save_data();
 //    }
     
-    private static function set_value_from_params(array $column_params, array $data){
-        
-        foreach ($data as $data_key => $value) {
-            if(Arr::is_array($value))
-            {
-                $data[$data_key] = self::set_value_from_params($column_params, $value);
-            }
-            else if(is_string($value)){
-                if(UTF8::substr($value, 0, 1) == ':'){
-                    $key = str_replace(':', '', $value);
-                    if(Arr::get($column_params, $key)){
-                        $data[$data_key] = $column_params[$key];
-                    }
-                }                
-            }
-        }
-       
-        return $data;
-    }
 
 
-    private static function check_mapping_rule(array $column_params, array $matching_rules){
-        foreach ($matching_rules as $key => $value) {
-            if(array_key_exists($key, $column_params)){
-                // Регулярка
-                if(UTF8::substr($value, 0, 1) == '#'){
-                    if(!(bool) preg_match($value, $column_params[$key])) return FALSE;
-                }
-                // Просто сравниваем значения
-                else{
-                    if($column_params[$key] != $value) return FALSE;
-                }
-            }
-            else{
-                return FALSE;
-            }
-        }
-        
-        return TRUE;
-    }
 
-
-    private static function check_dir_exist(){
-        $path = DOCROOT . Cms::STRUCTURE_PATH;
+    public static function check_dir_exist(){
+        $path = DOCROOT . self::STRUCTURE_PATH;
         
         if(!file_exists($path) || !is_dir($path)){
             mkdir($path, 0777, TRUE);
         }        
     }
     
-    private static function create_file_name($alias){
+    public static function create_file_name($alias){
         
-        return DOCROOT.Cms::STRUCTURE_PATH.DIRECTORY_SEPARATOR
-                .$alias.'.'.Cms::STRUCTURE_FILE_EXT;
+        return DOCROOT.self::STRUCTURE_PATH.DIRECTORY_SEPARATOR
+                .$alias.'.'.self::STRUCTURE_FILE_EXT;
     }
     
-    private static function get_correct_alias($alias){
-        $tables = Cms_Structure::get_all();
-        
-        if(!array_key_exists($alias, $tables)) {
-            return $alias;
-        }
-        
-        $c = 1;
-        do {
-            $new_alias = $alias.$c;
-            $c++;
-        } while (array_key_exists($new_alias, $tables));
-        
-        return $new_alias;
-    }
 
 
-
-
-//    private function change_data(array $data){
-//        $this->_data = $data + $this->_data;
-//        $this->save_data();
-//    }
 
     private function load_params_from_file(){
-        $file_name = Cms_Structure::create_file_name($this->_alias);
+        $file_name = self::create_file_name($this->_alias);
         
         if(file_exists($file_name)){
  
@@ -322,13 +184,13 @@ class Cms_Structure implements Cms_iStructure {
     
     private function save_params_to_file(){
         // Remove old file
-        $old_file_name = Cms_Structure::create_file_name($this->_alias);
+        $old_file_name = self::create_file_name($this->_alias);
         if(file_exists($old_file_name)){
             unlink($old_file_name);
         }
         
         // Save data to file
-        $new_file_name = Cms_Structure::create_file_name($this->_params['alias']);
+        $new_file_name = self::create_file_name($this->_params['alias']);
         $file = fopen($new_file_name, "w") or die("Unable to open file!");
         $content = json_encode($this->_params);
         fwrite($file, $content);

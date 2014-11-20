@@ -20,7 +20,7 @@ class Controller_Admin_Tools extends Controller_Admin_Base {
     public function action_structure() {
         $this->set_caption('Структура Базы Данных');
         
-        $tables = Cms_Structure::get_all();
+        $tables = Cms::get_all();
                 
         $this->set_content((string)View::factory('cms/tools/structure', array(
             'sections' => array(
@@ -186,7 +186,7 @@ class Controller_Admin_Tools extends Controller_Admin_Base {
         $config = Cms::$config;
         
         $columns = Cms_Dal::instance()->get_columns('cat_product');
-        $new_t = Cms_Structure::create('pages', $columns, $config['columns_mapping'], $config['table_config'], $config['default_column']);
+        $new_t = Cms::create('cat_product', $columns, $config['columns_mapping'], $config['table_config'], $config['default_column']);
         
         echo '<pre>';
         print_r($new_t);
