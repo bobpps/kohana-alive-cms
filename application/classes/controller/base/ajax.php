@@ -17,7 +17,7 @@ abstract class Controller_Base_Ajax extends Controller {
 
     public function after() {
         if (is_string($this->error)) {
-            $this->result['errormessage'] = 'Произошла ошибка: «' . $this->error . '»';
+            $this->result['errormessage'] = $this->error;
             $this->result['success'] = FALSE;
         }
 

@@ -1,4 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
+// http://startbootstrap.com/template-overviews/sb-admin-2/
+
 
 //include_once './cms/fckeditor/fckeditor.php';
 

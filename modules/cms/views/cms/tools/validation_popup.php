@@ -1,42 +1,62 @@
-<div class="row">
+<div class="row<?=key_exists('required', $rules) ? ' checked' : NULL?>">
     <div class="col-xs-6">
-        <input class="rule-check" name="required" type="checkbox" /> &nbsp;&nbsp;
+        <?=  create_checkbox('required', $rules)?>
         <strong>Required</strong>
     </div>
 </div>
-<div class="row checked">
+<div class="row<?=key_exists('maxlength', $rules) ? ' checked' : NULL?>">
     <div class="col-xs-6">
-        <input class="rule-check" name="maxlength" checked="checked" type="checkbox" /> &nbsp;&nbsp;
+        <?=  create_checkbox('maxlength', $rules)?>
         <strong>Max length:</strong>
     </div>
     <div class="col-xs-6">
-        <input class="form-control input-sm rule-value" value="64" name="maxlength_value" type="number" />
+        <?=  create_input('maxlength', $rules, 'number')?>
     </div>
 </div>    
-<div class="row">
+<div class="row<?=key_exists('regexp', $rules) ? ' checked' : NULL?>">
     <div class="col-xs-6">
-        <input class="rule-check" name="regexp" type="checkbox" /> &nbsp;&nbsp;
+        <?=  create_checkbox('regexp', $rules)?>
         <strong>RegExp:</strong>
     </div>
     <div class="col-xs-6">
-        <input disabled="disabled" class="form-control input-sm rule-value" name="regexp_value" type="text" />
+        <?=  create_input('regexp', $rules)?>
     </div>
 </div>  
-<div class="row">
+<div class="row<?=key_exists('max', $rules) ? ' checked' : NULL?>">
     <div class="col-xs-6">
-        <input class="rule-check" name="max" type="checkbox" /> &nbsp;&nbsp;
+        <?=  create_checkbox('max', $rules)?>
         <strong>Max:</strong>
     </div>
     <div class="col-xs-6">
-        <input disabled="disabled" class="form-control input-sm rule-value" name="max_value" type="number" />
+        <?=  create_input('max', $rules, 'number')?>
     </div>
 </div>   
-<div class="row">
+<div class="row<?=key_exists('min', $rules) ? ' checked' : NULL?>">
     <div class="col-xs-6">
-        <input class="rule-check" name="min" type="checkbox" /> &nbsp;&nbsp;
+        <?=  create_checkbox('min', $rules)?>
         <strong>Min:</strong>
     </div>
     <div class="col-xs-6">
-        <input disabled="disabled" class="form-control input-sm rule-value" name="min_value" type="number" />
+        <?=  create_input('min', $rules, 'number')?>
     </div>
 </div>  
+
+<?php 
+    function create_checkbox($name, $rules){
+        return Form::checkbox($name, NULL, key_exists($name, $rules), array('class' => 'rule-check')) . ' &nbsp;&nbsp';
+    }
+    
+    function create_input($name, $rules, $type = 'text'){
+        $value = key_exists($name, $rules) ? $rules[$name] : NULL;
+        $attr = array(
+            'class' => 'form-control input-sm rule-value',
+            'type' => $type
+        );
+        
+        if(!key_exists($name, $rules)){
+            $attr['disabled'] = 'disabled';
+        }
+        
+        return Form::input($name.'_value', $value, $attr);
+    }
+?>

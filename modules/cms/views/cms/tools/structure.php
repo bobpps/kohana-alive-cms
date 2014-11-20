@@ -50,124 +50,57 @@
                     </div>                       
                 </div>
 
+                <?php foreach ($tables as $table) : ?>
                 <div class="row table-item">
                     <div class="col-xs-8 col-md-6 col-lg-4">
                         <div class="col-xs-2">
                             <div class="text-field">
-                                <input type="checkbox" name="test_table" />
+                                <input type="checkbox" name="<?=$table['alias']?>" />
                             </div>
                         </div>
                         <div class="col-xs-5">
                             <div class="form-group">
                                 <div class="text-field">
-                                    <a class="alias" href="<?= Cms_Urlmanager::get_tools_url('table', 'test_table') ?>">test_table</a>
+                                    <a class="alias" href="<?= Cms_Urlmanager::get_tools_url('table', $table['alias']) ?>"><?=$table['alias']?></a>
                                 </div>
                             </div>
                         </div>
                         <div class="col-xs-5">
                             <div class="form-group">
-                                <div class="text-field table-name">test_table</div>
+                                <div class="text-field table-name"><?=$table['table_name']?></div>
                             </div>                            
                         </div>
                     </div>
 
                     <div class="col-xs-4 col-md-3">
                         <div class="form-group">
-                            <?= Form::input('name', 'Тестовая таблица', array('class' => 'form-control input-sm', 'type' => 'text')) ?>
+                            <?= Form::input('name', $table['name'], array('class' => 'form-control input-sm', 'type' => 'text')) ?>
                         </div>
                     </div>  
                     <div class="hidden-xs hidden-sm col-md-3">
                         <div class="form-group">
-                            <?= Form::select('menu', $sections, NULL, array('class' => 'form-control input-sm')) ?>
+                            <?= Form::select('menu_section', $sections, $table['menu_section'], array('class' => 'form-control input-sm')) ?>
                         </div>
                     </div>
                     <div class="hidden-xs hidden-sm hidden-md col-lg-2">
                         <div class="form-group">
-                            <?= Form::input('sorting', '100', array('class' => 'form-control input-sm', 'type' => 'number')) ?>
+                            <?= Form::input('order', $table['order'], array('class' => 'form-control input-sm', 'type' => 'number')) ?>
                         </div>
                     </div>                       
-                </div>                 
-
-                <div class="row table-item">
-                    <div class="col-xs-8 col-md-6 col-lg-4">
-                        <div class="col-xs-2">
-                            <div class="text-field">
-                                <input type="checkbox" name="first_table" />
-                            </div>
-                        </div>
-                        <div class="col-xs-5">
-                            <div class="form-group">
-                                <div class="text-field">
-                                    <a class="alias" href="<?= Cms_Urlmanager::get_tools_url('table', 'first_table') ?>">first_table</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xs-5">
-                            <div class="form-group">
-                                <div class="text-field table-name">first_table</div>
-                            </div>                            
-                        </div>
-                    </div>                    
-
-                    <div class="col-xs-4 col-md-3">
-                        <div class="form-group">
-                            <?= Form::input('name', 'Таблица 1', array('class' => 'form-control input-sm', 'type' => 'text')) ?>
-                        </div>
-                    </div>  
-                    <div class="hidden-xs hidden-sm col-md-3">
-                        <div class="form-group">
-                            <?= Form::select('menu', $sections, NULL, array('class' => 'form-control input-sm')) ?>
-                        </div>
-                    </div>
-                    <div class="hidden-xs hidden-sm hidden-md col-lg-2">
-                        <div class="form-group">
-                            <?= Form::input('sorting', '100', array('class' => 'form-control input-sm', 'type' => 'number')) ?>
-                        </div>
-                    </div>                       
-                </div>    
-
-                <div class="row table-item">
-                    <div class="col-xs-8 col-md-6 col-lg-4">
-                        <div class="col-xs-2">
-                            <div class="text-field">
-                                <input type="checkbox" name="second_table" />
-                            </div>
-                        </div>
-                        <div class="col-xs-5">
-                            <div class="form-group">
-                                <div class="text-field">
-                                    <a class="alias" href="<?= Cms_Urlmanager::get_tools_url('table', 'second_table') ?>">second_table</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xs-5">
-                            <div class="form-group">
-                                <div class="text-field table-name">second_table</div>
-                            </div>                            
-                        </div>
-                    </div>                         
-                    <div class="col-xs-4 col-md-3">
-                        <div class="form-group">
-                            <?= Form::input('name', 'Таблица 2', array('class' => 'form-control input-sm', 'type' => 'text')) ?>
-                        </div>
-                    </div>  
-                    <div class="hidden-xs hidden-sm col-md-3">
-                        <div class="form-group">
-                            <?= Form::select('menu', $sections, NULL, array('class' => 'form-control input-sm')) ?>
-                        </div>
-                    </div>
-                    <div class="hidden-xs hidden-sm hidden-md col-lg-2">
-                        <div class="form-group">
-                            <?= Form::input('sorting', '100', array('class' => 'form-control input-sm', 'type' => 'number')) ?>
-                        </div>
-                    </div>                       
-                </div>                
-
+                </div>                  
+                <?php endforeach; ?>
             </div>
             <!-- /.panel-body -->
         </div>
         <!-- /.panel -->
-        <button id="importBtn" type="submit" class="btn btn-default pull-right"><span class="fa fa-upload fa-fw"></span> Импорт</button>
+        <button id="importBtn" type="button" class="btn btn-default pull-right">
+            <span class="fa fa-upload fa-fw"></span> 
+            Импорт
+        </button>
+        <button id="exchangeBtn" type="button" class="btn btn-default" title="Синхронизировать">
+            <span class="fa fa-exchange"></span>
+            Синхронизация
+        </button>           
     </div>
     <!-- /.col-lg-12 -->
     

@@ -22,15 +22,17 @@ $(function() {
 });
 function saveColumnParamChanges(control) {
     var alias = $('#currentAlias').val(),
-            value = control.attr('type') == 'checkbox'
-            ? control.is(':checked')
-                ? 1 : 0
-            : control.val(),
-            fieldName = control.attr('name');
+        column = control.parents('.column-data').data('name'),
+        value = control.attr('type') == 'checkbox'
+        ? control.is(':checked')
+            ? 1 : 0
+        : control.val(),
+        fieldName = control.attr('name');
     
     ajax('change_column_param',
     {
         alias: alias,
+        column: column,
         field: fieldName,
         value: value
     },
@@ -40,7 +42,7 @@ function saveColumnParamChanges(control) {
             showSmallLoader(control);
         },
         success: function(result){
-            alert(result.msg);
+            //alert(result.msg);
         },
         complete: function(){
             control.attr('disabled', false);
@@ -78,10 +80,13 @@ $(function () {
         var form = $('#validationRulesForm'),
             popup = $('#validationRulesModal'),
             renderTo = popup.data('column').find('.validation-rules-group'),
-            popupContent = popup.find('.modal-body-content');
+            popupContent = popup.find('.modal-body-content'),
+            param = form.serialize();
+            
+        param += '&column=' + popup.data('column').data('name') + '&alias=' + $('#currentAlias').val();
                 
         ajax('change_validation_rules',
-        form.serialize(),
+        param,
         {
             beforeSend: function(){
                 popupContent.html('');
@@ -95,7 +100,7 @@ $(function () {
                 $('#validationRulesModal').modal('hide');
                 popupSetLoading();
             }
-        });        
+        }); 
     });
 });
 
@@ -113,7 +118,8 @@ function validationRulesPopupOpen(el){
     
     ajax('get_validation_rules_form',
     {
-        column: columnWrapper.find('input[name=name]').val()
+        column: el.parents('.column-data').data('name'),
+        alias: $('#currentAlias').val()
     },
     {
         beforeSend: function(){
@@ -152,7 +158,8 @@ function checkRulesRow(row) {
     row.find('input.rule-check').prop('checked', true);
     row.find('input.rule-value')
             //.val(value)
-            .attr('disabled', false);
+            .attr('disabled', false)
+            .attr('required', true);
 }
 
 function uncheckRulesRow(row) {
@@ -160,7 +167,8 @@ function uncheckRulesRow(row) {
     row.find('input.rule-check').prop('checked', false);
     row.find('input.rule-value')
             //.val(null)
-            .attr('disabled', true);
+            .attr('disabled', true)
+            .attr('required', false);
 }
 //End validation rules
 /***** END TABLE *****/
@@ -247,7 +255,7 @@ function saveTableParamChanges(el){
             showSmallLoader(el);
         },
         success: function(result){
-            alert(result.msg);
+            //alert(result.msg);
         },
         complete: function(){
             el.attr('disabled', false);

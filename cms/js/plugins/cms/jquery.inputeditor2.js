@@ -156,6 +156,7 @@
         setTimeout(function(){
             if(val === el.val()){
                 o.applyChanges.call(me, el);
+                el.attr('value', el.val());
             }            
         }, 500);
     };
