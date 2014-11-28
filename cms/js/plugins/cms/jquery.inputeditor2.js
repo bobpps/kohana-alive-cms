@@ -154,7 +154,7 @@
             o = me.options;
     
         setTimeout(function(){
-            if(val === el.val()){
+            if(val === el.val() && me.span.css('display') != 'table-cell'){
                 o.applyChanges.call(me, el);
                 el.attr('value', el.val());
             }            

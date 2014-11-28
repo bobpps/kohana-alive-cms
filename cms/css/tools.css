@@ -84,3 +84,8 @@
 #structure .small-loader{
     top: 12px;
 }
+
+#structure #checkChangesResult{
+    margin-top: 30px;
+    /*display: none;*/
+}

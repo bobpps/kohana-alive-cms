@@ -20,7 +20,7 @@ class Controller_Admin_Tools extends Controller_Admin_Base {
     public function action_structure() {
         $this->set_caption('Структура Базы Данных');
         
-        $tables = Cms::get_all();
+        $tables = Cms_Structure::get_all_tables(); //Cms::get_all();
                 
         $this->set_content((string)View::factory('cms/tools/structure', array(
             'sections' => array(
@@ -38,31 +38,31 @@ class Controller_Admin_Tools extends Controller_Admin_Base {
         
         $table = Cms_Structure::factory($alias);
         if(!$table) throw new HTTP_Exception_404;
-        $table_params = $table->get_params();
 
-        $table_name_to_caption = $table_params['alias'] == $table_params['table_name']
+        $table_name_to_caption = $table->get_alias() == $table->get_table_name()
                 ? '«'.$alias.'»'
-                : '«'.$alias.'» («'.$table_params['table_name'].'»)';
+                : '«'.$alias.'» («'.$table->get_table_name().'»)';
         $this->set_caption('Настройка таблицы <span>'.$table_name_to_caption.'</span>');
         
         $validation_rules = array();
+        $columns = array('Нет' => 'Выберите столбец...');
         
-        foreach ($table_params['columns'] as $column_name => $column) {
+        foreach ($table->get_columns() as $column_name => $column) {
             $validation_rules[$column_name] = (string) View::factory('cms/tools/validation', 
                     array('rules' => $column['validation_rules']));
+            
+            $columns[$column_name] = $column_name;
         }
         
         $this->set_content((string)View::factory('cms/tools/table', array(
-            'table' => $table_params,
+            'table' => $table,
             'users' => array(
-                1 => 'Админ',
-                2 => 'Юзер'
+                Cms::ACCESS_SUPERADMIN => 'СУПЕР АДМИН',
+                Cms::ACCESS_ADMIN => 'Администратор',
+                Cms::ACCESS_USER => 'Пользователь'
             ),
-            'columns' => array(
-                'Нет' => 'Выберите столбец...',
-                'id' => 'ID',
-                'name' => 'Name'
-            ),
+            'columns' => $columns,
+
             'validation_rules' => $validation_rules,
             'sections' => array(
                 'Нет' => 'Выберите раздел...',
@@ -104,46 +104,46 @@ class Controller_Admin_Tools extends Controller_Admin_Base {
         )), 'table_settings');
     } 
     
-    public function action_save() {
-        if (HTTP_Request::POST != $this->request->method()){
-            throw new HTTP_Exception_404();
-        }
-        
-        $post = $this->request->post();
-        $apply = Arr::get($post, 'apply', 0);
-        
-        $alias = Arr::get($post, 'current_alias');
-        $table = Cms_Structure::factory($alias);
-        
-        if(!$table) {
-            throw new Exception('Таблица "'.$alias.'" не найдена');
-        }
-        
-        $result = array();
-        $result['alias'] = Arr::get($post, 'alias');
-        $result['access'] = Arr::get($post, 'access');       
-        $result['name'] = Arr::get($post, 'name');
-        $result['id_column'] = Arr::get($post, 'id_column');
-        $result['is_active_column'] = Arr::get($post, 'is_active_column');
-        $result['sort_order_column'] = Arr::get($post, 'sort_order_column');
-        $result['menu_section'] = Arr::get($post, 'menu_section');
-        $result['order'] = Arr::get($post, 'order');
-        $result['width'] = Arr::get($post, 'width');
-        $result['adding'] = (bool)Arr::get($post, 'adding', FALSE);
-        $result['removing'] = (bool)Arr::get($post, 'removing', FALSE);
-        $result['editing'] = (bool)Arr::get($post, 'editing', FALSE);
-        $result['search'] = (bool)Arr::get($post, 'search', FALSE);
-        $result['order_by'] = Arr::get($post, 'order_by');
-        $result['where'] = Arr::get($post, 'where'); 
-
-        $table->save_params($result);
-        
-        if($apply == 1){
-            Request::current()->redirect(Cms_Urlmanager::get_tools_url('table', Arr::get($post, 'alias')));
-        }
-        
-        Request::current()->redirect(Cms_Urlmanager::get_tools_url('structure'));        
-    }
+//    public function action_save() {
+//        if (HTTP_Request::POST != $this->request->method()){
+//            throw new HTTP_Exception_404();
+//        }
+//        
+//        $post = $this->request->post();
+//        $apply = Arr::get($post, 'apply', 0);
+//        
+//        $alias = Arr::get($post, 'current_alias');
+//        $table = Cms_Structure::factory($alias);
+//        
+//        if(!$table) {
+//            throw new Exception('Таблица "'.$alias.'" не найдена');
+//        }
+//        
+//        $result = array();
+//        $result['alias'] = Arr::get($post, 'alias');
+//        $result['access'] = Arr::get($post, 'access');       
+//        $result['name'] = Arr::get($post, 'name');
+//        $result['id_column'] = Arr::get($post, 'id_column');
+//        $result['is_active_column'] = Arr::get($post, 'is_active_column');
+//        $result['sort_order_column'] = Arr::get($post, 'sort_order_column');
+//        $result['menu_section'] = Arr::get($post, 'menu_section');
+//        $result['order'] = Arr::get($post, 'order');
+//        $result['width'] = Arr::get($post, 'width');
+//        $result['adding'] = (bool)Arr::get($post, 'adding', FALSE);
+//        $result['removing'] = (bool)Arr::get($post, 'removing', FALSE);
+//        $result['editing'] = (bool)Arr::get($post, 'editing', FALSE);
+//        $result['search'] = (bool)Arr::get($post, 'search', FALSE);
+//        $result['order_by'] = Arr::get($post, 'order_by');
+//        $result['where'] = Arr::get($post, 'where'); 
+//
+//        $table->save_params($result);
+//        
+//        if($apply == 1){
+//            Request::current()->redirect(Cms_Urlmanager::get_tools_url('table', Arr::get($post, 'alias')));
+//        }
+//        
+//        Request::current()->redirect(Cms_Urlmanager::get_tools_url('structure'));        
+//    }
     
     public function action_test(){
 //        $tables = Database::instance()->list_tables();
@@ -183,10 +183,12 @@ class Controller_Admin_Tools extends Controller_Admin_Base {
 //        echo '</pre>';        
         
         
-        $config = Cms::$config;
+//        $config = Cms::$config;
+//        
+//        $columns = Cms_Dal::instance()->get_columns('cat_product');
+//        $new_t = Cms::create('cat_product', $columns, $config['columns_mapping'], $config['table_config'], $config['default_column']);
         
-        $columns = Cms_Dal::instance()->get_columns('cat_product');
-        $new_t = Cms::create('cat_product', $columns, $config['columns_mapping'], $config['table_config'], $config['default_column']);
+        $new_t = Cms::create('news');
         
         echo '<pre>';
         print_r($new_t);

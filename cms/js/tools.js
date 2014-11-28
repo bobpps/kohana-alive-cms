@@ -173,17 +173,36 @@ function uncheckRulesRow(row) {
 //End validation rules
 /***** END TABLE *****/
 
+/***** PARAMETERS *****/
+$(function() {
+    $('#params select, #params input[type=checkbox]').change(function() {
+        saveTableParamChanges($(this), false);
+    });
+    
+    $('#params input[type=text], #params input[type=number]').inputeditor2({
+        applyChanges: function(el) {
+            saveTableParamChanges(el, false);
+        }
+    }); 
+    
+    $('#params form').submit(function(){
+        return false;
+    });
+});
+/*** END PARAMETERS ***/
+
+
 /***** STRUCTURE *****/
 $(function() {
     $('#structure select').change(function() {
-        saveTableParamChanges($(this));
+        saveTableParamChanges($(this), true);
     });
     
     $('#structure input[type=text], #structure input[type=number]').inputeditor2({
         applyBtnClass: 'btn-sm',
         cancelBtnClass: 'btn-sm',
         applyChanges: function(el) {
-            saveTableParamChanges(el);
+            saveTableParamChanges(el, true);
         }
     }); 
     
@@ -237,11 +256,21 @@ function getSelectedTables(){
     return data;
 }
 
-function saveTableParamChanges(el){
-    var row = el.parents('.table-item'),
-        alias = row.find('.alias').text(),
-        fieldName = el.attr('name'),
-        value = el.val();
+function saveTableParamChanges(el, fromStructure){
+    var fieldName = el.attr('name'),
+        value = el.attr('type') == 'checkbox'
+        ? el.is(':checked')
+            ? 1 : 0
+        : el.val(),
+        alias;
+
+    if(fromStructure){
+        var row = el.parents('.table-item');
+        alias = row.find('.alias').text();
+    }
+    else{
+        alias = $('#currentAlias').val();
+    }
 
     ajax('change_table_param',
     {
@@ -255,7 +284,9 @@ function saveTableParamChanges(el){
             showSmallLoader(el);
         },
         success: function(result){
-            //alert(result.msg);
+            if(result.newAlias){
+                $('#currentAlias').val(result.newAlias);
+            }
         },
         complete: function(){
             el.attr('disabled', false);

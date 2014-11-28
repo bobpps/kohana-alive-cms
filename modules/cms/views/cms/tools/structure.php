@@ -50,41 +50,41 @@
                     </div>                       
                 </div>
 
-                <?php foreach ($tables as $table) : ?>
+                <?php foreach ($tables as $table) : /* @var $table Cms_Structure*/ ?>
                 <div class="row table-item">
                     <div class="col-xs-8 col-md-6 col-lg-4">
                         <div class="col-xs-2">
                             <div class="text-field">
-                                <input type="checkbox" name="<?=$table['alias']?>" />
+                                <input type="checkbox" name="<?=$table->get_alias()?>" />
                             </div>
                         </div>
                         <div class="col-xs-5">
                             <div class="form-group">
                                 <div class="text-field">
-                                    <a class="alias" href="<?= Cms_Urlmanager::get_tools_url('table', $table['alias']) ?>"><?=$table['alias']?></a>
+                                    <a class="alias" href="<?= Cms_Urlmanager::get_tools_url('table', $table->get_alias()) ?>"><?=$table->get_alias()?></a>
                                 </div>
                             </div>
                         </div>
                         <div class="col-xs-5">
                             <div class="form-group">
-                                <div class="text-field table-name"><?=$table['table_name']?></div>
+                                <div class="text-field table-name"><?=$table->get_table_name()?></div>
                             </div>                            
                         </div>
                     </div>
 
                     <div class="col-xs-4 col-md-3">
                         <div class="form-group">
-                            <?= Form::input('name', $table['name'], array('class' => 'form-control input-sm', 'type' => 'text')) ?>
+                            <?= Form::input('name', $table->get_option('name'), array('class' => 'form-control input-sm', 'type' => 'text')) ?>
                         </div>
                     </div>  
                     <div class="hidden-xs hidden-sm col-md-3">
                         <div class="form-group">
-                            <?= Form::select('menu_section', $sections, $table['menu_section'], array('class' => 'form-control input-sm')) ?>
+                            <?= Form::select('menu_section', $sections, $table->get_option('menu_section'), array('class' => 'form-control input-sm')) ?>
                         </div>
                     </div>
                     <div class="hidden-xs hidden-sm hidden-md col-lg-2">
                         <div class="form-group">
-                            <?= Form::input('order', $table['order'], array('class' => 'form-control input-sm', 'type' => 'number')) ?>
+                            <?= Form::input('order', $table->get_option('order'), array('class' => 'form-control input-sm', 'type' => 'number')) ?>
                         </div>
                     </div>                       
                 </div>                  
@@ -97,10 +97,50 @@
             <span class="fa fa-upload fa-fw"></span> 
             Импорт
         </button>
-        <button id="exchangeBtn" type="button" class="btn btn-default" title="Синхронизировать">
+        <button id="checkChangesBtn" type="button" class="btn btn-default" title="Проверить">
+            <span class="fa fa-check"></span>
+            Проверка
+        </button>  
+        <a id="syncBtn" href="<?=Cms_Urlmanager::get_tools_url('sync')?>" class="btn btn-default" title="Синхронизировать">
             <span class="fa fa-exchange"></span>
             Синхронизация
-        </button>           
+        </a> 
+        
+        <div class="panel panel-default" id="checkChangesResult">
+            <div class="panel-heading">
+                Результат проверки:
+            </div>  
+            <div class="panel-body">
+                <div class="loading" style="display: block;"> </div>
+
+                <div class="row">
+                    <div class="col-xs-4 col-md-3 col-lg-2" style="text-align: right;">
+                        <strong>first_table:</strong>
+                    </div>
+                    <div class="col-xs-8 col-md-9 col-lg-10">
+                        <span style="color: green;"><span style="color: green;" class="fa fa-check"> </span> ОК</span>
+                    </div>         
+                </div>
+                <div class="row">
+                    <div class="col-xs-4 col-md-3 col-lg-2" style="text-align: right;">
+                        <strong>second_table:</strong>
+                    </div>
+                    <div class="col-xs-8 col-md-9 col-lg-10">
+                        <span style="color: red;" class="fa fa-warning"> </span> <span style="color: red;">NEW</span>
+                    </div>         
+                </div>   
+                <div class="row">
+                    <div class="col-xs-4 col-md-3 col-lg-2" style="text-align: right;">
+                        <strong>third_table:</strong>
+                    </div>
+                    <div class="col-xs-8 col-md-9 col-lg-10">
+                        <span style="color: red;"><span class="fa fa-warning"> </span> New columns:</span> <span style="font-style: italic;">name, is_active</span>
+                        <br />
+                        <span style="color: red; padding-left: 18px;">Extra columns:</span> <span style="font-style: italic;">name, is_active</span>
+                    </div>         
+                </div>                 
+            </div>
+        </div>
     </div>
     <!-- /.col-lg-12 -->
     
