@@ -7,7 +7,7 @@ class Cms {
     const ACCESS_SUPERADMIN = 2;
     
     public static $config = array(
-        'table_config' => array(
+        'default_table_params' => array(
             'access' => CMS::ACCESS_USER,
             'id_column' => 'id',
             'is_active_column' => NULL,
@@ -23,27 +23,30 @@ class Cms {
             'where' => '', 
             //'columns' => array()   
         ),
-        'names_mapping' => array(
-            'pages' => 'Страницы',
-            'news'  => 'Новости',
-            'settings' => 'Настройки',
-            'gallery' => 'Галерея',
-            'catalog' => 'Каталог',
-            'catalogue' => 'Каталог',
-        ),
-        'special_columns' => array(
-            'id' => array('id'),
-            'is_active' => array('is_active', 'active'),
-            'sorting' => array('sort_order', 'sort', 'sortorder', 'sort_no', 'sortno')
-        ),
         'default_column' => array(
-            'edit' => 'Hidden',
+            'edit' => NULL,
             'edit_sort' => 100,
-            'list' => 'Hidden',
+            'list' => NULL,
             'list_sort' => 100,
             'color' => 'Auto',
             'align' => 'Left',
             'validation_rules' => array()      
+        ),        
+        'special_columns' => array(
+//            'id_column' => array('id'),
+//            'is_active_column' => array('is_active', 'active'),
+//            'sort_order_column' => array('sort_order', 'sort', 'sortorder', 'sort_no', 'sortno', 'order')
+        ),
+        'ignore_tables' => array(
+            //'news'
+        ),
+        'names_matching' => array(
+//            'pages' => 'Страницы',
+//            'news'  => 'Новости',
+//            'settings' => 'Настройки',
+//            'gallery' => 'Галерея',
+//            'catalog' => 'Каталог',
+//            'catalogue' => 'Каталог',
         ),
         'columns_matching_rules' => array(
             array(
@@ -97,124 +100,77 @@ class Cms {
     public static function get_dal_instance(){
         return Cms_Dal::instance();
     }
-  
     
     /**
      * 
-     * @param string $table_name
-     * @return \Cms_Structure
-     */
-    public static function create($table_name){
-        //$alias = self::get_correct_alias($table_name); // Used only this
-        
-        $new_table = new Cms_Structure($table_name, TRUE);
-        
-        // TODO: Create method to get "table_config" using config file
-        $default_options = self::$config['table_config'];
-        $default_options['name'] = str_replace('_', ' ', Text::ucfirst($new_table->get_alias()));
-        
-        // TODO: Create method to get "column_config" and "columns_matching_rules" using config file
-        $default_column_config = self::$config['default_column'];
-        $matching_rules = self::$config['columns_matching_rules'];
-
-        $columns_data = self::get_dal_instance()->get_columns($new_table->get_table_name());
-        
-        $new_table->set_options($default_options)
-                ->create_columns($columns_data, $matching_rules, $default_column_config)
-                ->save();
-        
-//        $params['alias'] = $alias;
-//        $params['table_name'] = $table_name;
-//        if(!Arr::get($params, 'name')){
-//            $params['name'] = str_replace('_', ' ', Text::ucfirst($table_name));
-//        }
-//        
-//        // TODO: Надо создать столбцы здесь, а логику применения настроек вынести в Структуру
-//        
-//        
-//        // Перебираем столбцы
-//        foreach ($columns as $column_name => $column_params) {
-//            $column = $default_column_config;
-//            $column['name'] = str_replace('_', ' ', Text::ucfirst($column_name));
-//            
-//            // Перебираем правила
-//            foreach ($columns_mapping as $rule) {
-//                // Если условия совпали - применяем данные
-//                if(self::check_mapping_rule($column_params, $rule['matching']))  // Used only this
-//                {
-//                    // Форматируем данные
-//                    $rule_data = self::set_value_from_params($column_params, $rule['data']);  // Used only this
-//                    $column = Arr::merge($column, $rule_data);
-//                    
-//                    // Если правило не сквозное - прекращаем перебор правил
-//                    if(!$rule['through']) break;
-//                }
-//            }
-//            
-//            // Добавляем столбец в параметры таблицы
-//            $params['columns'][$column_name] = $column;
-//        }
-//        
-//        $new_table->save_params($params);
-        return $new_table;
-    }
-    
-  
-   
-    
-    // Эти методы должны переехать в Структуру вслед за логикой сопоставления параметров
-    
-    /**
-     * 
-     * @param array $column_params
-     * @param array $rule_data
      * @return array
      */
-//    private static function set_value_from_params(array $column_params, array $rule_data){
-//        
-//        foreach ($rule_data as $data_key => $value) {
-//            if(Arr::is_array($value))
-//            {
-//                $rule_data[$data_key] = self::set_value_from_params($column_params, $value);
-//            }
-//            else if(is_string($value)){
-//                if(UTF8::substr($value, 0, 1) == ':'){
-//                    $key = str_replace(':', '', $value);
-//                    if(Arr::get($column_params, $key)){
-//                        $rule_data[$data_key] = $column_params[$key];
-//                    }
-//                }                
-//            }
-//        }
-//       
-//        return $rule_data;
-//    }
-//
-//    /**
-//     * 
-//     * @param array $column_params
-//     * @param array $matching_params
-//     * @return boolean
-//     */
-//    private static function check_mapping_rule(array $column_params, array $matching_params){
-//        foreach ($matching_params as $key => $value) {
-//            if(array_key_exists($key, $column_params)){
-//                // Регулярка
-//                if(UTF8::substr($value, 0, 1) == '#'){
-//                    if(!(bool) preg_match($value, $column_params[$key])) return FALSE;
-//                }
-//                // Просто сравниваем значения
-//                else{
-//                    if($column_params[$key] != $value) return FALSE;
-//                }
-//            }
-//            else{
-//                return FALSE;
-//            }
-//        }
-//        
-//        return TRUE;
-//    }
+    public static function get_default_table_params(){
+        $config_section = 'default_table_params';
+        return self::get_config($config_section);
+    }
     
+    /**
+     * 
+     * @return array
+     */    
+    public static function get_default_column(){
+        $config_section = 'default_column';
+        return self::get_config($config_section);
+    }
+    
+    /**
+     * 
+     * @return array
+     */    
+    public static function get_special_columns(){
+        $config_section = 'special_columns';
+        return self::get_config($config_section);
+    }
+    
+    /**
+     * 
+     * @return array
+     */    
+    public static function get_ignore_tables(){
+        $config_section = 'ignore_tables';
+        return self::get_config($config_section);
+    }
+    
+    /**
+     * 
+     * @return array
+     */    
+    public static function get_names_matching(){
+        $config_section = 'names_matching';
+        return self::get_config($config_section);
+    }
+    
+    /**
+     * 
+     * @return array
+     */    
+    public static function get_columns_matching_rules(){
+        $config_section = 'columns_matching_rules';
+        return self::get_config($config_section);
+    }    
+
+    /**
+     * 
+     * @return array
+     */
+    private static function get_config($config_section, $group = 'default'){
+        $config_file = Kohana::$config->load('cms')->get($group);
+        $self_config = self::$config;
+        
+        $config = $config_file + $self_config;
+        
+        if(isset($config[$config_section])) {
+            return $config[$config_section];
+        }
+        else{
+            return array();
+        }        
+    }
     
 }

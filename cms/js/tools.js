@@ -233,10 +233,22 @@ $(function() {
     });
     
     $('#structure #removeBtn').click(function(){
+        if(!confirm('Вы уверены?')) return;        
+        
         var data = getSelectedTables();
         
         if(data){
-            console.log(data);
+            ajax('delete_table',
+            {
+                tables: data
+            },
+            {
+                success: function(result){
+                    if(result.urlToRedirect){
+                        window.location.replace(result.urlToRedirect);
+                    }
+                }
+            });            
         }
     });    
 });

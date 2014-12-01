@@ -131,7 +131,25 @@ class Controller_Admin_Ajax extends Controller_Base_Ajax {
         }
     }
     
-    
+    public function action_delete_table(){
+        try {
+            $tables = $this->request->post('tables');
+
+            if(Arr::is_array($tables)){
+                foreach ($tables as $alias){
+                    $table = Cms_Structure::factory($alias);
+                    if($table != NULL){
+                        unlink($table->get_file_name());
+                    }
+                }
+            }
+            
+            $this->add_result_data('urlToRedirect', Cms_Urlmanager::get_tools_url('structure'));
+        } catch (Exception $exc) {
+            $this->set_error($exc->getMessage());
+        }            
+    }
+
 //    private function create_new_data_structure($data){
 //        return array(
 //            'alias' => Arr::get($data, 'alias'),

@@ -1,3 +1,7 @@
+$(function(){
+    $('[data-toggle="tooltip"]').tooltip(); 
+});
+
 /**
  * 
  * @param {string} action       - Имя экшена в контролере Ajax

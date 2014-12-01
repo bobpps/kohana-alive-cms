@@ -11,7 +11,8 @@ interface Cms_iStructure {
     public function set_alias($alias);
     
     public function get_table_name();
-    
+    public function get_file_name();
+
     public function get_options();
     public function set_options(array $options);
     

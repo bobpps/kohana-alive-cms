@@ -61,6 +61,8 @@
                         <div class="col-xs-5">
                             <div class="form-group">
                                 <div class="text-field">
+                                    <!--<span data-toggle="tooltip" data-placement="top" title="Tooltip on top" style="color: green;" class="fa fa-check"> </span>--> 
+                                    <?=$table->get_option('structure-tooltip');?>
                                     <a class="alias" href="<?= Cms_Urlmanager::get_tools_url('table', $table->get_alias()) ?>"><?=$table->get_alias()?></a>
                                 </div>
                             </div>
@@ -97,55 +99,28 @@
             <span class="fa fa-upload fa-fw"></span> 
             Импорт
         </button>
-        <button id="checkChangesBtn" type="button" class="btn btn-default" title="Проверить">
-            <span class="fa fa-check"></span>
-            Проверка
-        </button>  
         <a id="syncBtn" href="<?=Cms_Urlmanager::get_tools_url('sync')?>" class="btn btn-default" title="Синхронизировать">
             <span class="fa fa-exchange"></span>
             Синхронизация
         </a> 
         
-        <div class="panel panel-default" id="checkChangesResult">
+
+        <?php if(count($tables_to_add) > 0) : ?>
+        <div class="panel panel-default" style="margin-top: 30px;">
             <div class="panel-heading">
-                Результат проверки:
+                Найдены новые таблицы:
             </div>  
             <div class="panel-body">
-                <div class="loading" style="display: block;"> </div>
-
                 <div class="row">
-                    <div class="col-xs-4 col-md-3 col-lg-2" style="text-align: right;">
-                        <strong>first_table:</strong>
-                    </div>
-                    <div class="col-xs-8 col-md-9 col-lg-10">
-                        <span style="color: green;"><span style="color: green;" class="fa fa-check"> </span> ОК</span>
-                    </div>         
-                </div>
-                <div class="row">
-                    <div class="col-xs-4 col-md-3 col-lg-2" style="text-align: right;">
-                        <strong>second_table:</strong>
-                    </div>
-                    <div class="col-xs-8 col-md-9 col-lg-10">
-                        <span style="color: red;" class="fa fa-warning"> </span> <span style="color: red;">NEW</span>
-                    </div>         
-                </div>   
-                <div class="row">
-                    <div class="col-xs-4 col-md-3 col-lg-2" style="text-align: right;">
-                        <strong>third_table:</strong>
-                    </div>
-                    <div class="col-xs-8 col-md-9 col-lg-10">
-                        <span style="color: red;"><span class="fa fa-warning"> </span> New columns:</span> <span style="font-style: italic;">name, is_active</span>
-                        <br />
-                        <span style="color: red; padding-left: 18px;">Extra columns:</span> <span style="font-style: italic;">name, is_active</span>
-                    </div>         
+                    <?php foreach ($tables_to_add as $tname): ?>
+                    <div class="col-xs-12">
+                        <p><?=$tname?></p>
+                    </div>                     
+                    <?php endforeach; ?>
                 </div>                 
             </div>
         </div>
+        <?php endif; ?>
     </div>
     <!-- /.col-lg-12 -->
-    
-
-    
-    
-
 </div>

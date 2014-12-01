@@ -111,6 +111,15 @@ class Cms_Structure implements Cms_iStructure {
         return $this->_table_name;
     }
     
+    
+    /**
+     * 
+     * @return string
+     */    
+    public function get_file_name(){
+        return $this->_file_name;
+    }
+    
     /**
      * 
      * @return array
